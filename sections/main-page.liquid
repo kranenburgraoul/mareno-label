@@ -1,0 +1,27 @@
+<section class="page-content">
+  <div class="container">
+    <div class="page-inner">
+      <h1>{{ page.title }}</h1>
+      <div class="page-body rte">{{ page.content }}</div>
+    </div>
+  </div>
+</section>
+
+<style>
+.page-content { padding: 80px 0 120px; }
+.page-inner { max-width: 760px; margin: 0 auto; }
+.page-inner h1 { font-size: clamp(28px, 4vw, 48px); font-weight: 300; margin-bottom: 48px; }
+.page-body { font-size: 16px; line-height: 1.9; color: #444; }
+.page-body h2 { font-size: 24px; font-weight: 400; margin: 48px 0 16px; }
+.page-body p { margin-bottom: 20px; }
+.page-body a { color: var(--black); text-decoration: underline; }
+.page-body ul, .page-body ol { padding-left: 24px; margin-bottom: 20px; }
+.page-body li { margin-bottom: 8px; }
+</style>
+
+{% schema %}
+{
+  "name": "Page",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,91 @@
+<section class="cart-page">
+  <div class="container">
+    <h1>Your Cart</h1>
+
+    {%- if cart.item_count > 0 -%}
+      <form action="/cart" method="post" class="cart-form">
+        <div class="cart-table">
+          <div class="cart-table-head">
+            <span>Product</span>
+            <span>Price</span>
+            <span>Quantity</span>
+            <span>Total</span>
+          </div>
+          {%- for item in cart.items -%}
+            <div class="cart-row">
+              <div class="cart-row-product">
+                {%- if item.image -%}
+                  <a href="{{ item.url }}">
+                    <img src="{{ item.image | img_url: '120x' }}" alt="{{ item.title | escape }}" loading="lazy">
+                  </a>
+                {%- endif -%}
+                <div>
+                  <a href="{{ item.url }}" class="cart-row-name">{{ item.product.title }}</a>
+                  {%- unless item.variant.title == 'Default Title' -%}
+                    <p class="cart-row-var">{{ item.variant.title }}</p>
+                  {%- endunless -%}
+                  <a href="/cart/change?line={{ forloop.index }}&quantity=0" class="cart-row-remove">Remove</a>
+                </div>
+              </div>
+              <div class="cart-row-price">{{ item.price | money }}</div>
+              <div>
+                <input
+                  type="number"
+                  name="updates[]"
+                  value="{{ item.quantity }}"
+                  min="0"
+                  class="cart-row-qty">
+              </div>
+              <div class="cart-row-total">{{ item.line_price | money }}</div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="cart-summary">
+          <div class="cart-totals">
+            <p class="cart-subtotal">
+              <span>Subtotal</span>
+              <span>{{ cart.total_price | money }}</span>
+            </p>
+            <p class="cart-shipping-note">Shipping calculated at checkout.</p>
+          </div>
+          <div class="cart-actions">
+            <button type="submit" name="update" class="btn btn-secondary">Update cart</button>
+            <button type="submit" name="checkout" class="btn btn-primary">Checkout</button>
+          </div>
+        </div>
+      </form>
+    {%- else -%}
+      <div class="cart-empty">
+        <p>Your cart is empty.</p>
+        <a href="/collections/all" class="btn btn-primary">Continue shopping</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+.cart-page { padding: 80px 0 120px; }
+.cart-page h1 { font-size: clamp(24px, 3vw, 40px); font-weight: 300; margin-bottom: 56px; }
+.cart-table-head { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 24px; padding-bottom: 16px; border-bottom: 1px solid #eee; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #999; }
+.cart-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 24px; align-items: center; padding: 24px 0; border-bottom: 1px solid #f0f0f0; }
+.cart-row-product { display: flex; gap: 20px; align-items: flex-start; }
+.cart-row-product img { width: 80px; height: 100px; object-fit: cover; }
+.cart-row-name { font-size: 14px; font-weight: 500; text-decoration: none; color: var(--black); display: block; margin-bottom: 4px; }
+.cart-row-var { font-size: 13px; color: #999; margin-bottom: 8px; }
+.cart-row-remove { font-size: 12px; color: #999; text-decoration: underline; }
+.cart-row-price, .cart-row-total { font-size: 14px; }
+.cart-row-qty { width: 64px; padding: 8px 12px; border: 1px solid #ddd; background: transparent; font-size: 14px; text-align: center; }
+.cart-summary { display: flex; justify-content: flex-end; margin-top: 48px; }
+.cart-totals { text-align: right; }
+.cart-subtotal { display: flex; gap: 80px; font-size: 16px; font-weight: 500; margin-bottom: 8px; }
+.cart-shipping-note { font-size: 13px; color: #999; margin-bottom: 32px; }
+.cart-actions { display: flex; gap: 16px; }
+.cart-empty { text-align: center; padding: 80px 0; }
+.cart-empty p { font-size: 18px; color: #999; margin-bottom: 32px; }
+@media (max-width: 768px) {
+  .cart-table-head { display: none; }
+  .cart-row { grid-template-columns: 1fr; }
+  .cart-summary { flex-direction: column; align-items: flex-end; }
+}
+</style>

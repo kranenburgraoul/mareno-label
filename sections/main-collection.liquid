@@ -1,0 +1,84 @@
+<section class="collection-page">
+  <div class="container">
+    <div class="coll-header">
+      <h1>{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}
+        <p class="coll-desc">{{ collection.description }}</p>
+      {%- endif -%}
+      <p class="coll-count">{{ collection.products_count }} {{ collection.products_count | pluralize: 'product', 'products' }}</p>
+    </div>
+
+    {%- paginate collection.products by 24 -%}
+      <div class="coll-grid">
+        {%- for product in collection.products -%}
+          <a href="{{ product.url }}" class="coll-card">
+            <div class="coll-card-img">
+              {%- if product.featured_image -%}
+                <img
+                  src="{{ product.featured_image | img_url: '500x' }}"
+                  alt="{{ product.featured_image.alt | escape }}"
+                  loading="lazy">
+              {%- else -%}
+                <div class="coll-card-placeholder"></div>
+              {%- endif -%}
+              {%- unless product.available -%}
+                <span class="coll-card-badge">Sold out</span>
+              {%- endunless -%}
+            </div>
+            <div class="coll-card-info">
+              <p class="coll-card-name">{{ product.title }}</p>
+              <p class="coll-card-price">
+                {%- if product.compare_at_price > product.price -%}
+                  <span class="price-sale">{{ product.price | money }}</span>
+                  <span class="price-compare">{{ product.compare_at_price | money }}</span>
+                {%- else -%}
+                  {{ product.price | money }}
+                {%- endif -%}
+              </p>
+            </div>
+          </a>
+        {%- else -%}
+          <p style="grid-column:1/-1;text-align:center;color:#999;padding:80px 0;">No products found in this collection.</p>
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <div class="pagination">
+          {{ paginate | default_pagination }}
+        </div>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+<style>
+.collection-page { padding: 80px 0 120px; }
+.coll-header { text-align: center; margin-bottom: 64px; }
+.coll-header h1 { font-size: clamp(28px, 4vw, 48px); font-weight: 300; margin-bottom: 16px; }
+.coll-desc { font-size: 16px; color: #666; max-width: 560px; margin: 0 auto 16px; line-height: 1.7; }
+.coll-count { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: #999; }
+.coll-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px 24px; }
+.coll-card { text-decoration: none; color: inherit; display: block; }
+.coll-card-img { position: relative; aspect-ratio: 3/4; overflow: hidden; background: var(--beige); margin-bottom: 16px; }
+.coll-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.coll-card:hover .coll-card-img img { transform: scale(1.04); }
+.coll-card-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, var(--beige) 0%, var(--beige2) 100%); }
+.coll-card-badge { position: absolute; top: 12px; left: 12px; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; background: var(--black); color: var(--white); padding: 4px 10px; }
+.coll-card-name { font-size: 14px; font-weight: 400; margin-bottom: 6px; }
+.coll-card-price { font-size: 14px; color: #666; }
+.price-sale { color: var(--black); font-weight: 500; }
+.price-compare { font-size: 13px; color: #aaa; text-decoration: line-through; margin-left: 8px; }
+.pagination { text-align: center; margin-top: 64px; }
+.pagination a, .pagination span { display: inline-block; padding: 10px 16px; border: 1px solid #ddd; margin: 0 4px; font-size: 13px; text-decoration: none; color: var(--black); transition: all 0.2s; }
+.pagination a:hover, .pagination .current { background: var(--black); color: var(--white); border-color: var(--black); }
+@media (max-width: 1024px) { .coll-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px) { .coll-grid { grid-template-columns: repeat(2, 1fr); gap: 20px 16px; } }
+@media (max-width: 480px) { .coll-grid { grid-template-columns: 1fr 1fr; gap: 16px 12px; } }
+</style>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": []
+}
+{% endschema %}

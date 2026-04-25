@@ -1,0 +1,40 @@
+<div class="auth-page">
+  <div class="auth-box">
+    <h1>Sign in</h1>
+
+    {%- form 'customer_login' -%}
+      {%- if form.errors -%}
+        <div class="form-errors">{{ form.errors | default_errors }}</div>
+      {%- endif -%}
+
+      <div class="form-group">
+        <label for="CustomerEmail">Email</label>
+        <input type="email" name="customer[email]" id="CustomerEmail" autocomplete="email" required>
+      </div>
+      <div class="form-group">
+        <label for="CustomerPassword">Password</label>
+        <input type="password" name="customer[password]" id="CustomerPassword" autocomplete="current-password" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%;">Sign in</button>
+    {%- endform -%}
+
+    <div class="auth-links">
+      <a href="{{ routes.account_recover_url }}">Forgot password?</a>
+      <a href="{{ routes.account_register_url }}">Create account</a>
+    </div>
+  </div>
+</div>
+
+<style>
+.auth-page { min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 80px 40px; }
+.auth-box { width: 100%; max-width: 440px; }
+.auth-box h1 { font-size: 32px; font-weight: 300; margin-bottom: 40px; }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; color: #666; }
+.form-group input { width: 100%; padding: 14px 16px; border: 1px solid #ddd; background: transparent; font-size: 14px; outline: none; transition: border-color 0.2s; box-sizing: border-box; }
+.form-group input:focus { border-color: var(--black); }
+.auth-links { display: flex; justify-content: space-between; margin-top: 24px; }
+.auth-links a { font-size: 13px; color: #666; text-decoration: underline; }
+.form-errors { background: #fff0f0; border: 1px solid #fcc; padding: 12px 16px; font-size: 13px; color: #c00; margin-bottom: 24px; }
+</style>

@@ -1,0 +1,57 @@
+<div class="auth-page">
+  <div class="auth-box" style="max-width:600px;">
+    <h1>Addresses</h1>
+
+    <p><a href="{{ routes.account_url }}">&larr; Back to account</a></p>
+
+    {%- for address in customer.addresses -%}
+      <div class="address-card">
+        {{ address | format_address }}
+        {%- if address == customer.default_address -%}
+          <span class="address-default">Default</span>
+        {%- endif -%}
+        <div style="margin-top:12px;">
+          <a href="#" data-form-id="EditAddress_{{ address.id }}" class="address-edit">Edit</a>
+          <a href="/account/addresses/{{ address.id }}" data-method="delete" style="margin-left:16px;color:#999;">Delete</a>
+        </div>
+      </div>
+    {%- endfor -%}
+
+    <div style="margin-top:40px;">
+      <h2>Add a new address</h2>
+      {%- form 'customer_address', customer.new_address -%}
+        <div class="form-group">
+          <label>First name</label>
+          <input type="text" name="address[first_name]" value="{{ form.first_name }}">
+        </div>
+        <div class="form-group">
+          <label>Last name</label>
+          <input type="text" name="address[last_name]" value="{{ form.last_name }}">
+        </div>
+        <div class="form-group">
+          <label>Address</label>
+          <input type="text" name="address[address1]" value="{{ form.address1 }}">
+        </div>
+        <div class="form-group">
+          <label>City</label>
+          <input type="text" name="address[city]" value="{{ form.city }}">
+        </div>
+        <div class="form-group">
+          <label>Postal code</label>
+          <input type="text" name="address[zip]" value="{{ form.zip }}">
+        </div>
+        <div class="form-group">
+          <label>Country</label>
+          <select name="address[country]">{{ form.country | country_option_tags }}</select>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px;">Save address</button>
+      {%- endform -%}
+    </div>
+  </div>
+</div>
+
+<style>
+.address-card { padding: 24px; border: 1px solid #eee; margin-bottom: 16px; font-size: 14px; line-height: 1.7; color: #555; }
+.address-default { display: inline-block; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; background: var(--black); color: var(--white); padding: 3px 8px; margin-top: 8px; }
+.address-edit { font-size: 13px; text-decoration: underline; color: #555; }
+</style>

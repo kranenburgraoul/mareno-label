@@ -1,0 +1,185 @@
+{%- assign product = product -%}
+<section class="product-page">
+  <div class="container">
+    <div class="product-layout">
+
+      <div class="product-gallery">
+        {%- if product.featured_image -%}
+          <img
+            src="{{ product.featured_image | img_url: '800x' }}"
+            alt="{{ product.featured_image.alt | escape }}"
+            class="product-img-main"
+            id="productMainImg">
+          {%- if product.images.size > 1 -%}
+            <div class="product-thumbs">
+              {%- for image in product.images -%}
+                <img
+                  src="{{ image | img_url: '200x' }}"
+                  alt="{{ image.alt | escape }}"
+                  class="product-thumb{% if forloop.first %} active{% endif %}"
+                  data-full="{{ image | img_url: '800x' }}"
+                  loading="lazy">
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        {%- else -%}
+          <div class="product-img-placeholder"></div>
+        {%- endif -%}
+      </div>
+
+      <div class="product-info">
+        <p class="product-vendor">{{ product.vendor }}</p>
+        <h1 class="product-title">{{ product.title }}</h1>
+
+        <div class="product-price" id="productPrice">
+          {%- if product.compare_at_price > product.price -%}
+            <span class="price-sale">{{ product.price | money }}</span>
+            <span class="price-compare">{{ product.compare_at_price | money }}</span>
+          {%- else -%}
+            <span>{{ product.price | money }}</span>
+          {%- endif -%}
+        </div>
+
+        {%- unless product.has_only_default_variant -%}
+          {%- for option in product.options_with_values -%}
+            <div class="product-option">
+              <label class="option-label">{{ option.name }}</label>
+              <div class="option-values">
+                {%- for value in option.values -%}
+                  <button
+                    type="button"
+                    class="option-btn{% if option.selected_value == value %} selected{% endif %}"
+                    data-option-index="{{ forloop.parentloop.index0 }}"
+                    data-value="{{ value | escape }}">
+                    {{ value }}
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- endunless -%}
+
+        <div class="product-qty-row">
+          <div class="qty-ctrl">
+            <button class="qty-btn" id="qtyMinus">&#8722;</button>
+            <input type="number" class="qty-val" id="qtyInput" value="1" min="1" max="99">
+            <button class="qty-btn" id="qtyPlus">&#43;</button>
+          </div>
+          <button
+            type="button"
+            class="btn btn-primary product-atc"
+            id="productAtc"
+            data-variant-id="{{ product.selected_or_first_available_variant.id }}">
+            {%- if product.selected_or_first_available_variant.available -%}
+              Add to Cart
+            {%- else -%}
+              Sold Out
+            {%- endif -%}
+          </button>
+        </div>
+
+        {%- if product.description != blank -%}
+          <div class="product-desc">{{ product.description }}</div>
+        {%- endif -%}
+
+        <div class="product-meta">
+          {%- if product.type != blank -%}
+            <p><span>Type:</span> {{ product.type }}</p>
+          {%- endif -%}
+          {%- if product.tags.size > 0 -%}
+            <p><span>Tags:</span> {{ product.tags | join: ', ' }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+.product-page { padding: 80px 0 120px; }
+.product-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.product-img-main { width: 100%; aspect-ratio: 3/4; object-fit: cover; background: var(--beige); }
+.product-img-placeholder { width: 100%; aspect-ratio: 3/4; background: linear-gradient(135deg, var(--beige) 0%, var(--beige2) 100%); }
+.product-thumbs { display: flex; gap: 12px; margin-top: 16px; }
+.product-thumb { width: 72px; height: 96px; object-fit: cover; cursor: pointer; opacity: 0.5; transition: opacity 0.2s; }
+.product-thumb.active, .product-thumb:hover { opacity: 1; }
+.product-vendor { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #999; margin-bottom: 12px; }
+.product-title { font-size: clamp(24px, 3vw, 36px); font-weight: 300; margin-bottom: 20px; }
+.product-price { font-size: 20px; font-weight: 500; margin-bottom: 32px; }
+.price-sale { color: var(--black); }
+.price-compare { font-size: 16px; color: #999; text-decoration: line-through; margin-left: 12px; }
+.product-option { margin-bottom: 24px; }
+.option-label { display: block; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px; }
+.option-values { display: flex; flex-wrap: wrap; gap: 8px; }
+.option-btn { padding: 10px 18px; border: 1px solid #ddd; background: transparent; font-size: 13px; cursor: pointer; transition: all 0.2s; }
+.option-btn.selected, .option-btn:hover { border-color: var(--black); background: var(--black); color: var(--white); }
+.product-qty-row { display: flex; gap: 16px; align-items: center; margin: 32px 0; }
+.product-atc { flex: 1; padding: 16px; font-size: 12px; }
+.product-desc { font-size: 15px; line-height: 1.8; color: #555; border-top: 1px solid #eee; padding-top: 32px; margin-top: 32px; }
+.product-meta { font-size: 13px; color: #999; margin-top: 24px; }
+.product-meta span { color: var(--black); font-weight: 500; }
+@media (max-width: 768px) {
+  .product-layout { grid-template-columns: 1fr; gap: 40px; }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var atcBtn = document.getElementById('productAtc');
+  var qtyInput = document.getElementById('qtyInput');
+  var mainImg = document.getElementById('productMainImg');
+
+  if (document.getElementById('qtyMinus')) {
+    document.getElementById('qtyMinus').addEventListener('click', function () {
+      var v = parseInt(qtyInput.value); if (v > 1) qtyInput.value = v - 1;
+    });
+    document.getElementById('qtyPlus').addEventListener('click', function () {
+      var v = parseInt(qtyInput.value); qtyInput.value = v + 1;
+    });
+  }
+
+  if (mainImg) {
+    document.querySelectorAll('.product-thumb').forEach(function (thumb) {
+      thumb.addEventListener('click', function () {
+        mainImg.src = this.dataset.full;
+        document.querySelectorAll('.product-thumb').forEach(function (t) { t.classList.remove('active'); });
+        this.classList.add('active');
+      });
+    });
+  }
+
+  document.querySelectorAll('.option-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var idx = this.dataset.optionIndex;
+      document.querySelectorAll('[data-option-index="' + idx + '"]').forEach(function (b) { b.classList.remove('selected'); });
+      this.classList.add('selected');
+    });
+  });
+
+  if (atcBtn && !atcBtn.disabled) {
+    atcBtn.addEventListener('click', function () {
+      var variantId = this.dataset.variantId;
+      var qty = parseInt(qtyInput ? qtyInput.value : 1) || 1;
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: variantId, quantity: qty })
+      }).then(function () {
+        var cartOverlay = document.getElementById('cartOverlay');
+        var cartDrawer = document.getElementById('cartDrawer');
+        if (cartOverlay) cartOverlay.classList.add('open');
+        if (cartDrawer) { cartDrawer.classList.add('open'); cartDrawer.setAttribute('aria-hidden', 'false'); }
+        document.body.style.overflow = 'hidden';
+      }).catch(function (err) { console.error(err); });
+    });
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": []
+}
+{% endschema %}

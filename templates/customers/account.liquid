@@ -1,0 +1,65 @@
+<section class="account-page">
+  <div class="container">
+    <div class="account-header">
+      <h1>My Account</h1>
+      <a href="{{ routes.account_logout_url }}" class="account-logout">Sign out</a>
+    </div>
+
+    <div class="account-grid">
+      <div class="account-col">
+        <h2>Order History</h2>
+        {%- if customer.orders.size > 0 -%}
+          <table class="order-table">
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- for order in customer.orders -%}
+                <tr>
+                  <td><a href="{{ order.customer_url }}">{{ order.name }}</a></td>
+                  <td>{{ order.created_at | date: '%d %b %Y' }}</td>
+                  <td>{{ order.financial_status_label }}</td>
+                  <td>{{ order.total_price | money }}</td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+        {%- else -%}
+          <p style="color:#999;font-size:14px;">You haven't placed any orders yet.</p>
+        {%- endif -%}
+      </div>
+
+      <div class="account-col">
+        <h2>Account Details</h2>
+        <p style="font-size:14px;line-height:1.8;color:#555;">
+          {{ customer.first_name }} {{ customer.last_name }}<br>
+          {{ customer.email }}<br>
+          {%- if customer.default_address -%}
+            {{ customer.default_address | format_address }}
+          {%- endif -%}
+        </p>
+        <a href="{{ routes.account_addresses_url }}" class="account-edit-link">Manage addresses</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.account-page { padding: 80px 0 120px; }
+.account-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 56px; }
+.account-header h1 { font-size: clamp(24px, 3vw, 40px); font-weight: 300; }
+.account-logout { font-size: 13px; color: #999; text-decoration: underline; }
+.account-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 80px; }
+.account-col h2 { font-size: 18px; font-weight: 400; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #eee; }
+.order-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.order-table th { text-align: left; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #999; padding-bottom: 12px; border-bottom: 1px solid #eee; }
+.order-table td { padding: 16px 0; border-bottom: 1px solid #f5f5f5; }
+.order-table a { color: var(--black); }
+.account-edit-link { display: inline-block; margin-top: 20px; font-size: 13px; text-decoration: underline; color: #555; }
+@media (max-width: 768px) { .account-grid { grid-template-columns: 1fr; gap: 48px; } }
+</style>
