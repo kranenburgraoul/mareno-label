@@ -1,0 +1,10 @@
+{
+  "current": {
+    "color_primary": "#111111",
+    "color_background": "#F5F5F5",
+    "color_beige": "#D6CFC7",
+    "color_green": "#2F3E34",
+    "free_shipping_threshold": 100
+  },
+  "presets": {}
+}

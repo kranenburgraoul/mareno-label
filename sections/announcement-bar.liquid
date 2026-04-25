@@ -1,0 +1,26 @@
+<div class="ann-bar" role="banner">
+  <div class="ann-track">
+    <div class="ann-item">
+      <span>{{ section.settings.message_1 }}</span>
+    </div>
+    <div class="ann-item">{{ section.settings.message_2 }}</div>
+    <div class="ann-item">
+      <span>{{ section.settings.message_3 }}</span>
+    </div>
+    <div class="ann-item">
+      <span>{{ section.settings.message_1 }}</span>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    { "type": "text", "id": "message_1", "label": "Message 1", "default": "Free shipping from €100 · Easy returns within 14 days" },
+    { "type": "text", "id": "message_2", "label": "Message 2", "default": "New summer essentials — now available" },
+    { "type": "text", "id": "message_3", "label": "Message 3", "default": "Designed in Europe · Shipped worldwide" }
+  ],
+  "presets": [{ "name": "Announcement Bar" }]
+}
+{% endschema %}

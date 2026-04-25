@@ -1,0 +1,45 @@
+<header class="site-header" id="siteHeader">
+  <div class="hdr-inner">
+
+    <a href="{{ routes.root_url }}" class="site-logo" aria-label="{{ shop.name }} – Home">
+      <span class="logo-a">{{ section.settings.logo_main | default: shop.name | split: ' ' | first }}</span>
+      <span class="logo-b">{{ section.settings.logo_sub | default: 'Label' }}</span>
+    </a>
+
+    <nav class="hdr-nav" aria-label="Main navigation">
+      {%- for link in linklists[section.settings.menu].links -%}
+        <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+      {%- else -%}
+        <a href="{{ routes.root_url }}">Home</a>
+        <a href="/collections/new-arrivals">New Arrivals</a>
+        <a href="/collections/shirts">Shirts</a>
+        <a href="/collections/trousers">Trousers</a>
+        <a href="/collections/loafers">Loafers</a>
+        <a href="/pages/about">About</a>
+        <a href="/pages/contact">Contact</a>
+      {%- endfor -%}
+    </nav>
+
+    <div class="hdr-actions">
+      <button class="cart-btn" id="cartToggle" aria-label="Open cart">
+        Cart
+        <span class="cart-badge" id="cartCount">{{ cart.item_count }}</span>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "text", "id": "logo_main", "label": "Logo — main word", "default": "Mareno" },
+    { "type": "text", "id": "logo_sub",  "label": "Logo — sub word",  "default": "Label" },
+    { "type": "link_list", "id": "menu", "label": "Navigation menu", "default": "main-menu" }
+  ]
+}
+{% endschema %}

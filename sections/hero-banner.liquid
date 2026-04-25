@@ -1,0 +1,76 @@
+<section class="hero" aria-label="Hero">
+
+  <div class="hero-left">
+    <p class="hero-eyebrow">{{ section.settings.eyebrow }}</p>
+    <h1>{{ section.settings.heading | newline_to_br }}</h1>
+    <p class="hero-sub">{{ section.settings.subheading }}</p>
+    <div class="hero-ctas">
+      {%- if section.settings.cta_primary_label != blank -%}
+        <a href="{{ section.settings.cta_primary_url }}" class="btn btn-primary">{{ section.settings.cta_primary_label }}</a>
+      {%- endif -%}
+      {%- if section.settings.cta_secondary_label != blank -%}
+        <a href="{{ section.settings.cta_secondary_url }}" class="btn btn-secondary">{{ section.settings.cta_secondary_label }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-img-bg"></div>
+    {%- if section.settings.hero_image != blank -%}
+      <img
+        class="hero-img-photo"
+        src="{{ section.settings.hero_image | img_url: '1200x' }}"
+        srcset="{{ section.settings.hero_image | img_url: '800x' }} 800w, {{ section.settings.hero_image | img_url: '1200x' }} 1200w"
+        alt="{{ section.settings.hero_image.alt | default: 'Hero image' }}"
+        loading="eager"
+        fetchpriority="high">
+    {%- else -%}
+      <div class="hero-silhouette"></div>
+      <span class="hero-img-label">{{ section.settings.image_caption | default: 'Summer collection 2025' }}</span>
+      <span class="hero-img-tag">{{ shop.name }}</span>
+    {%- endif -%}
+
+    <div class="hero-trust">
+      <div class="trust-item">
+        <span class="trust-label">{{ section.settings.trust_1_label }}</span>
+        <span class="trust-sub">{{ section.settings.trust_1_sub }}</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-label">{{ section.settings.trust_2_label }}</span>
+        <span class="trust-sub">{{ section.settings.trust_2_sub }}</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-label">{{ section.settings.trust_3_label }}</span>
+        <span class="trust-sub">{{ section.settings.trust_3_sub }}</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    { "type": "text",  "id": "eyebrow",    "label": "Eyebrow text",   "default": "Summer 2025 Collection" },
+    { "type": "textarea", "id": "heading", "label": "Heading",        "default": "Effortless style for modern men." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading",  "default": "Minimal menswear essentials designed to make every outfit look sharp, comfortable and easy to wear — wherever the day takes you." },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
+    { "type": "text", "id": "image_caption", "label": "Image caption (if no image)", "default": "Summer collection 2025" },
+    { "type": "header", "content": "Primary CTA" },
+    { "type": "text", "id": "cta_primary_label", "label": "Button text",  "default": "Shop Collection" },
+    { "type": "url",  "id": "cta_primary_url",   "label": "Button link" },
+    { "type": "header", "content": "Secondary CTA" },
+    { "type": "text", "id": "cta_secondary_label", "label": "Button text",  "default": "Explore Essentials" },
+    { "type": "url",  "id": "cta_secondary_url",   "label": "Button link" },
+    { "type": "header", "content": "Trust strip" },
+    { "type": "text", "id": "trust_1_label", "label": "Trust 1 — label", "default": "Premium Essentials" },
+    { "type": "text", "id": "trust_1_sub",   "label": "Trust 1 — sub",   "default": "Refined menswear" },
+    { "type": "text", "id": "trust_2_label", "label": "Trust 2 — label", "default": "Travel Ready" },
+    { "type": "text", "id": "trust_2_sub",   "label": "Trust 2 — sub",   "default": "Pack light, look sharp" },
+    { "type": "text", "id": "trust_3_label", "label": "Trust 3 — label", "default": "Easy to Combine" },
+    { "type": "text", "id": "trust_3_sub",   "label": "Trust 3 — sub",   "default": "Effortless styling" }
+  ],
+  "presets": [{ "name": "Hero Banner" }]
+}
+{% endschema %}

@@ -1,0 +1,70 @@
+<section class="benefits">
+  <div class="container">
+
+    <div class="section-head reveal">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2>{{ section.settings.heading }}</h2>
+      {%- if section.settings.subheading != blank -%}
+        <p>{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="benefits-grid">
+      {%- for i in (1..4) -%}
+        {%- assign b_title = section.settings['benefit_title_' | append: i] -%}
+        {%- assign b_text  = section.settings['benefit_text_'  | append: i] -%}
+        <div class="bcard reveal">
+          {%- case i -%}
+            {%- when 1 -%}
+              <svg class="bcard-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+              </svg>
+            {%- when 2 -%}
+              <svg class="bcard-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+                <path d="M7.5 12.5c1 1.5 2.5 2 4.5 2s3.5-.5 4.5-2"/>
+              </svg>
+            {%- when 3 -%}
+              <svg class="bcard-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <rect x="2" y="6" width="20" height="14" rx="2"/>
+                <path d="M16 6V4a2 2 0 00-4 0v2M12 11v5M9 13.5h6"/>
+              </svg>
+            {%- when 4 -%}
+              <svg class="bcard-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+              </svg>
+          {%- endcase -%}
+          <h4 class="bcard-title">{{ b_title }}</h4>
+          <p class="bcard-text">{{ b_text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Benefits",
+  "settings": [
+    { "type": "text",     "id": "eyebrow",    "label": "Eyebrow",    "default": "Our promise" },
+    { "type": "text",     "id": "heading",    "label": "Heading",    "default": "Why Mareno Label?" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Menswear made simple, sharp and reliable." },
+    { "type": "header",   "content": "Benefit 1" },
+    { "type": "text",     "id": "benefit_title_1", "label": "Title", "default": "Smart Casual Ready" },
+    { "type": "textarea", "id": "benefit_text_1",  "label": "Text",  "default": "Every piece works for the office, dinner, weekend and everything in between. One wardrobe, multiple settings." },
+    { "type": "header",   "content": "Benefit 2" },
+    { "type": "text",     "id": "benefit_title_2", "label": "Title", "default": "Breathable Fabrics" },
+    { "type": "textarea", "id": "benefit_text_2",  "label": "Text",  "default": "Summer-weight linen, cotton and blends that keep you comfortable from morning to evening." },
+    { "type": "header",   "content": "Benefit 3" },
+    { "type": "text",     "id": "benefit_title_3", "label": "Title", "default": "Travel Friendly" },
+    { "type": "textarea", "id": "benefit_text_3",  "label": "Text",  "default": "Wrinkle-resistant cuts and compact fabrics — pack less, arrive looking sharp." },
+    { "type": "header",   "content": "Benefit 4" },
+    { "type": "text",     "id": "benefit_title_4", "label": "Title", "default": "Easy to Combine" },
+    { "type": "textarea", "id": "benefit_text_4",  "label": "Text",  "default": "Neutral tones and considered cuts that mix and match effortlessly — build looks without overthinking." }
+  ],
+  "presets": [{ "name": "Benefits" }]
+}
+{% endschema %}

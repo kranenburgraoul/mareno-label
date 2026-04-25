@@ -1,0 +1,90 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+
+      <div class="footer-brand">
+        <a href="{{ routes.root_url }}" class="site-logo">
+          <span class="logo-a">{{ section.settings.logo_main | default: 'Mareno' }}</span>
+          <span class="logo-b">{{ section.settings.logo_sub | default: 'Label' }}</span>
+        </a>
+        <p class="footer-tagline">{{ section.settings.tagline }}</p>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-col-title">Navigate</p>
+        <ul>
+          {%- for link in linklists[section.settings.menu_navigate].links -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- else -%}
+            <li><a href="/">Home</a></li>
+            <li><a href="/collections/new-arrivals">New Arrivals</a></li>
+            <li><a href="/collections/shirts">Shirts</a></li>
+            <li><a href="/collections/trousers">Trousers</a></li>
+            <li><a href="/collections/loafers">Loafers</a></li>
+            <li><a href="/pages/contact">Contact</a></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-col-title">Customer Care</p>
+        <ul>
+          {%- for link in linklists[section.settings.menu_care].links -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- else -%}
+            <li><a href="/pages/shipping">Shipping</a></li>
+            <li><a href="/pages/returns">Returns</a></li>
+            <li><a href="/pages/size-guide">Size Guide</a></li>
+            <li><a href="/pages/faq">FAQ</a></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-col-title">Follow</p>
+        <ul>
+          {%- if section.settings.instagram_url != blank -%}
+            <li><a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener">Instagram</a></li>
+          {%- endif -%}
+          {%- if section.settings.tiktok_url != blank -%}
+            <li><a href="{{ section.settings.tiktok_url }}" target="_blank" rel="noopener">TikTok</a></li>
+          {%- endif -%}
+          {%- if section.settings.pinterest_url != blank -%}
+            <li><a href="{{ section.settings.pinterest_url }}" target="_blank" rel="noopener">Pinterest</a></li>
+          {%- endif -%}
+          {%- if section.settings.instagram_url == blank and section.settings.tiktok_url == blank and section.settings.pinterest_url == blank -%}
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">TikTok</a></li>
+            <li><a href="#">Pinterest</a></li>
+          {%- endif -%}
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
+      <p>
+        <a href="/policies/privacy-policy">Privacy Policy</a> &nbsp;&mdash;&nbsp;
+        <a href="/policies/terms-of-service">Terms &amp; Conditions</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "text",      "id": "logo_main",      "label": "Logo main word",      "default": "Mareno" },
+    { "type": "text",      "id": "logo_sub",       "label": "Logo sub word",       "default": "Label" },
+    { "type": "textarea",  "id": "tagline",        "label": "Tagline",             "default": "Effortless style for modern men. Minimal menswear essentials for everyday confidence." },
+    { "type": "link_list", "id": "menu_navigate",  "label": "Navigation menu",     "default": "footer-nav" },
+    { "type": "link_list", "id": "menu_care",      "label": "Customer care menu",  "default": "footer-care" },
+    { "type": "header",    "content": "Social links" },
+    { "type": "url",       "id": "instagram_url",  "label": "Instagram URL" },
+    { "type": "url",       "id": "tiktok_url",     "label": "TikTok URL" },
+    { "type": "url",       "id": "pinterest_url",  "label": "Pinterest URL" }
+  ]
+}
+{% endschema %}

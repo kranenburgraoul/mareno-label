@@ -1,0 +1,78 @@
+<section class="cats-section">
+  <div class="container">
+
+    <div class="section-head reveal">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2>{{ section.settings.heading }}</h2>
+    </div>
+
+    <div class="cats-grid">
+      {%- for i in (1..4) -%}
+        {%- assign col_handle = section.settings['collection_' | append: i] -%}
+        {%- assign col_title  = section.settings['title_'      | append: i] -%}
+        {%- assign col_url    = section.settings['url_'        | append: i] -%}
+        {%- assign col_img    = section.settings['image_'      | append: i] -%}
+
+        <div class="cat-card reveal">
+          {%- if col_handle != blank -%}
+            {%- assign cat_col = collections[col_handle] -%}
+            {%- if cat_col.image -%}
+              <img class="cat-img" src="{{ cat_col.image | img_url: '600x900', crop: 'center' }}" alt="{{ cat_col.title }}" loading="lazy">
+            {%- else -%}
+              <div class="cat-visual cat-c{{ i }}"></div>
+            {%- endif -%}
+            <div class="cat-info">
+              <h3>{{ cat_col.title }}</h3>
+              <a href="{{ cat_col.url }}" class="cat-link">View Collection</a>
+            </div>
+          {%- elsif col_img != blank -%}
+            <img class="cat-img" src="{{ col_img | img_url: '600x900', crop: 'center' }}" alt="{{ col_title }}" loading="lazy">
+            <div class="cat-info">
+              <h3>{{ col_title }}</h3>
+              <a href="{{ col_url | default: '#' }}" class="cat-link">View Collection</a>
+            </div>
+          {%- else -%}
+            {%- assign default_titles = 'Shirts,Polos,Trousers,Loafers' | split: ',' -%}
+            <div class="cat-visual cat-c{{ i }}"></div>
+            <div class="cat-info">
+              <h3>{{ col_title | default: default_titles[forloop.index0] }}</h3>
+              <a href="{{ col_url | default: '#' }}" class="cat-link">View Collection</a>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection Grid",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shop by category" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The Collection" },
+    { "type": "header", "content": "Category 1" },
+    { "type": "collection",   "id": "collection_1", "label": "Collection" },
+    { "type": "text",         "id": "title_1",      "label": "Override title" },
+    { "type": "image_picker", "id": "image_1",      "label": "Override image" },
+    { "type": "url",          "id": "url_1",        "label": "Override link" },
+    { "type": "header", "content": "Category 2" },
+    { "type": "collection",   "id": "collection_2", "label": "Collection" },
+    { "type": "text",         "id": "title_2",      "label": "Override title" },
+    { "type": "image_picker", "id": "image_2",      "label": "Override image" },
+    { "type": "url",          "id": "url_2",        "label": "Override link" },
+    { "type": "header", "content": "Category 3" },
+    { "type": "collection",   "id": "collection_3", "label": "Collection" },
+    { "type": "text",         "id": "title_3",      "label": "Override title" },
+    { "type": "image_picker", "id": "image_3",      "label": "Override image" },
+    { "type": "url",          "id": "url_3",        "label": "Override link" },
+    { "type": "header", "content": "Category 4" },
+    { "type": "collection",   "id": "collection_4", "label": "Collection" },
+    { "type": "text",         "id": "title_4",      "label": "Override title" },
+    { "type": "image_picker", "id": "image_4",      "label": "Override image" },
+    { "type": "url",          "id": "url_4",        "label": "Override link" }
+  ],
+  "presets": [{ "name": "Collection Grid" }]
+}
+{% endschema %}
