@@ -25,6 +25,17 @@
       },
       "announcement-bar": {
         "type": "announcement-bar",
+        "blocks": {
+          "message_mErxKr": {
+            "type": "message",
+            "settings": {
+              "message": "Free shipping from €100 · Easy returns within 14 days"
+            }
+          }
+        },
+        "block_order": [
+          "message_mErxKr"
+        ],
         "settings": {}
       },
       "footer": {
