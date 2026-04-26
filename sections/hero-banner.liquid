@@ -1,75 +1,123 @@
-<section class="hero" aria-label="Hero">
-
-  <div class="hero-left">
-    <p class="hero-eyebrow">{{ section.settings.eyebrow }}</p>
-    <h1>{{ section.settings.heading | newline_to_br }}</h1>
-    <p class="hero-sub">{{ section.settings.subheading }}</p>
-    <div class="hero-ctas">
+<section class="hero-full" style="
+  {%- if section.settings.hero_image != blank -%}
+    background-image: url('{{ section.settings.hero_image | image_url: width: 2000 }}');
+  {%- else -%}
+    background: linear-gradient(135deg, #2F3E34 0%, #1a2420 100%);
+  {%- endif -%}
+  --overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+">
+  <div class="hero-full__overlay"></div>
+  <div class="hero-full__inner">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="hero-full__eyebrow">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+    <h1 class="hero-full__heading">{{ section.settings.heading }}</h1>
+    {%- if section.settings.subheading != blank -%}
+      <p class="hero-full__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+    <div class="hero-full__ctas">
       {%- if section.settings.cta_primary_label != blank -%}
         <a href="{{ section.settings.cta_primary_url }}" class="btn btn-primary">{{ section.settings.cta_primary_label }}</a>
       {%- endif -%}
       {%- if section.settings.cta_secondary_label != blank -%}
-        <a href="{{ section.settings.cta_secondary_url }}" class="btn btn-secondary">{{ section.settings.cta_secondary_label }}</a>
+        <a href="{{ section.settings.cta_secondary_url }}" class="btn btn-secondary btn-light">{{ section.settings.cta_secondary_label }}</a>
       {%- endif -%}
     </div>
   </div>
-
-  <div class="hero-right">
-    <div class="hero-img-bg"></div>
-    {%- if section.settings.hero_image != blank -%}
-      <img
-        class="hero-img-photo"
-        src="{{ section.settings.hero_image | img_url: '1200x' }}"
-        srcset="{{ section.settings.hero_image | img_url: '800x' }} 800w, {{ section.settings.hero_image | img_url: '1200x' }} 1200w"
-        alt="{{ section.settings.hero_image.alt | default: 'Hero image' }}"
-        loading="eager"
-        fetchpriority="high">
-    {%- else -%}
-      <div class="hero-silhouette"></div>
-      <span class="hero-img-label">{{ section.settings.image_caption | default: 'Summer collection 2025' }}</span>
-      <span class="hero-img-tag">{{ shop.name }}</span>
-    {%- endif -%}
-
-    <div class="hero-trust">
-      <div class="trust-item">
-        <span class="trust-label">{{ section.settings.trust_1_label }}</span>
-        <span class="trust-sub">{{ section.settings.trust_1_sub }}</span>
-      </div>
-      <div class="trust-item">
-        <span class="trust-label">{{ section.settings.trust_2_label }}</span>
-        <span class="trust-sub">{{ section.settings.trust_2_sub }}</span>
-      </div>
-      <div class="trust-item">
-        <span class="trust-label">{{ section.settings.trust_3_label }}</span>
-        <span class="trust-sub">{{ section.settings.trust_3_sub }}</span>
-      </div>
-    </div>
-  </div>
-
 </section>
+
+<style>
+.hero-full {
+  position: relative;
+  width: 100%;
+  min-height: {{ section.settings.height }}vh;
+  background-size: cover;
+  background-position: {{ section.settings.image_position }};
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.hero-full__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,var(--overlay, 0.4));
+}
+.hero-full__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  padding: 40px 24px;
+  color: #fff;
+}
+.hero-full__eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  margin-bottom: 20px;
+}
+.hero-full__heading {
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 20px;
+}
+.hero-full__sub {
+  font-size: clamp(15px, 2vw, 18px);
+  line-height: 1.7;
+  opacity: 0.85;
+  max-width: 560px;
+  margin: 0 auto 36px;
+}
+.hero-full__ctas {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.btn-light {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255,255,255,0.6);
+}
+.btn-light:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: #fff;
+}
+</style>
 
 {% schema %}
 {
   "name": "Hero Banner",
   "settings": [
-    { "type": "text",  "id": "eyebrow",    "label": "Eyebrow text",   "default": "Summer 2025 Collection" },
-    { "type": "textarea", "id": "heading", "label": "Heading",        "default": "Effortless style for modern men." },
-    { "type": "textarea", "id": "subheading", "label": "Subheading",  "default": "Minimal menswear essentials designed to make every outfit look sharp, comfortable and easy to wear — wherever the day takes you." },
-    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
-    { "type": "text", "id": "image_caption", "label": "Image caption (if no image)", "default": "Summer collection 2025" },
-    { "type": "header", "content": "Primary CTA" },
-    { "type": "text", "id": "cta_primary_label", "label": "Button text",  "default": "Shop Collection" },
-    { "type": "url",  "id": "cta_primary_url",   "label": "Button link" },
-    { "type": "header", "content": "Secondary CTA" },
-    { "type": "text", "id": "cta_secondary_label", "label": "Button text",  "default": "Explore Essentials" },
-    { "type": "url",  "id": "cta_secondary_url",   "label": "Button link" },
-    { "type": "header", "content": "Trust strip" },
-    { "type": "text", "id": "trust_1_label", "label": "Trust 1 — label", "default": "Premium Essentials" },
-    { "type": "text", "id": "trust_1_sub",   "label": "Trust 1 — sub",   "default": "Refined menswear" },
-    { "type": "text", "id": "trust_2_label", "label": "Trust 2 — label", "default": "Travel Ready" },
-    { "type": "text", "id": "trust_2_sub",   "label": "Trust 2 — sub",   "default": "Pack light, look sharp" },
-    { "type": "text", "id": "trust_3_label", "label": "Trust 3 — label", "default": "Easy to Combine" },
-    { "type": "text", "id": "trust_3_sub",   "label": "Trust 3 — sub",   "default": "Effortless styling" }
+    { "type": "image_picker", "id": "hero_image",       "label": "Background image" },
+    { "type": "select",       "id": "image_position",   "label": "Image position",
+      "options": [
+        { "value": "center center", "label": "Center" },
+        { "value": "top center",    "label": "Top" },
+        { "value": "bottom center", "label": "Bottom" },
+        { "value": "center left",   "label": "Left" },
+        { "value": "center right",  "label": "Right" }
+      ],
+      "default": "center center"
+    },
+    { "type": "range", "id": "height",          "label": "Section height",     "min": 40, "max": 100, "step": 5,  "unit": "vh", "default": 85 },
+    { "type": "range", "id": "overlay_opacity", "label": "Image overlay (darkness)", "min": 0,  "max": 80, "step": 5,  "unit": "%",  "default": 40 },
+    { "type": "header",   "content": "Text" },
+    { "type": "text",     "id": "eyebrow",            "label": "Eyebrow",          "default": "Summer 2025 Collection" },
+    { "type": "textarea", "id": "heading",            "label": "Heading",          "default": "Effortless style for modern men." },
+    { "type": "textarea", "id": "subheading",         "label": "Subheading",       "default": "Minimal menswear essentials designed to make every outfit look sharp, comfortable and effortless." },
+    { "type": "header",   "content": "Primary button" },
+    { "type": "text",     "id": "cta_primary_label",  "label": "Button text",      "default": "Shop Collection" },
+    { "type": "url",      "id": "cta_primary_url",    "label": "Button link" },
+    { "type": "header",   "content": "Secondary button" },
+    { "type": "text",     "id": "cta_secondary_label","label": "Button text",      "default": "Explore Essentials" },
+    { "type": "url",      "id": "cta_secondary_url",  "label": "Button link" }
   ],
   "presets": [{ "name": "Hero Banner" }]
 }
