@@ -4,21 +4,22 @@
       <span class="eyebrow">{{ section.settings.eyebrow }}</span>
       <h2>{{ section.settings.heading }}</h2>
     </div>
-    <div class="cats-grid">
-      {%- for block in section.blocks -%}
-        <div class="cat-card reveal" {{ block.shopify_attributes }}>
-          {%- if block.settings.image != blank -%}
-            <img class="cat-img" src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.title }}" loading="lazy">
-          {%- else -%}
-            <div class="cat-visual cat-c{{ forloop.index }}"></div>
-          {%- endif -%}
-          <div class="cat-info">
-            <h3>{{ block.settings.title }}</h3>
-            <a href="{{ block.settings.url | default: '#' }}" class="cat-link">View Collection</a>
-          </div>
+  </div>
+
+  <div class="cats-grid">
+    {%- for block in section.blocks -%}
+      <div class="cat-card reveal" {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+          <img class="cat-img" src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.title }}" loading="lazy">
+        {%- else -%}
+          <div class="cat-visual cat-c{{ forloop.index }}"></div>
+        {%- endif -%}
+        <div class="cat-info">
+          <h3>{{ block.settings.title }}</h3>
+          <a href="{{ block.settings.url | default: '#' }}" class="cat-link">View Collection</a>
         </div>
-      {%- endfor -%}
-    </div>
+      </div>
+    {%- endfor -%}
   </div>
 </section>
 
@@ -35,9 +36,9 @@
       "type": "category",
       "name": "Category",
       "settings": [
-        { "type": "text",         "id": "title",  "label": "Title",       "default": "Category" },
-        { "type": "image_picker", "id": "image",  "label": "Image" },
-        { "type": "url",          "id": "url",    "label": "Link" }
+        { "type": "text",         "id": "title", "label": "Title",  "default": "Category" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "url",          "id": "url",   "label": "Link" }
       ]
     }
   ],
