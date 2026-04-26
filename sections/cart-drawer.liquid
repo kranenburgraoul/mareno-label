@@ -1,0 +1,52 @@
+<div class="cart-overlay" id="cartOverlay"></div>
+
+<aside class="cart-drawer" id="cartDrawer" aria-label="Cart" aria-hidden="true">
+  <div class="cart-hdr">
+    <h2>Cart (<span id="cartItemCount">{{ cart.item_count }}</span>)</h2>
+    <button class="cart-x" id="cartClose" aria-label="Close cart">&#10005;</button>
+  </div>
+
+  <div class="cart-items" id="cartItems">
+    {%- if cart.item_count > 0 -%}
+      {%- for item in cart.items -%}
+        <div class="citem" data-key="{{ item.key }}">
+          <div class="citem-img">
+            {%- if item.image -%}
+              <img src="{{ item.image | image_url: width: 160 }}" alt="{{ item.title | escape }}" loading="lazy">
+            {%- endif -%}
+          </div>
+          <div>
+            <div class="citem-name">{{ item.product.title }}</div>
+            {%- unless item.variant.title == 'Default Title' -%}
+              <div class="citem-var">{{ item.variant.title }}</div>
+            {%- endunless -%}
+            <div class="qty-ctrl">
+              <button class="qty-btn" data-action="decrease" data-key="{{ item.key }}">&#8722;</button>
+              <span class="qty-val">{{ item.quantity }}</span>
+              <button class="qty-btn" data-action="increase" data-key="{{ item.key }}">&#43;</button>
+            </div>
+          </div>
+          <div class="citem-price">{{ item.line_price | money }}</div>
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      <p class="cart-empty-msg">Your cart is empty.</p>
+    {%- endif -%}
+  </div>
+
+  <div class="cart-foot">
+    <div class="cart-sub">
+      <span>Subtotal</span>
+      <span id="cartSubtotal">{{ cart.total_price | money }}</span>
+    </div>
+    <a href="{{ routes.cart_url }}" class="cart-checkout">Checkout</a>
+    <button class="cart-cnt" id="cartContinue">Continue shopping</button>
+  </div>
+</aside>
+
+{% schema %}
+{
+  "name": "Cart Drawer",
+  "settings": []
+}
+{% endschema %}

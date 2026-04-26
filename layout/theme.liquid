@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <title>
     {%- if page_title == shop.name -%}
-      {{ shop.name }} — {{ shop.description | default: 'Effortless Style for Modern Men' }}
+      {{ shop.name }} &mdash; {{ shop.description | default: 'Effortless Style for Modern Men' }}
     {%- else -%}
       {{ page_title }} &mdash; {{ shop.name }}
     {%- endif -%}
@@ -20,19 +19,19 @@
   <link rel="canonical" href="{{ canonical_url }}">
 
   {%- if settings.favicon != blank -%}
-    <link rel="icon" type="image/png" href="{{ settings.favicon | img_url: '32x32' }}">
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32 }}">
   {%- endif -%}
 
   {{ content_for_header }}
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   {{ 'theme.css' | asset_url | stylesheet_tag }}
 </head>
 
-<body>
+<body class="template-{{ template.name }}">
 
   {% section 'announcement-bar' %}
   {% section 'header' %}
@@ -42,92 +41,9 @@
   </main>
 
   {% section 'footer' %}
+  {% section 'cart-drawer' %}
 
-  <!-- Cart overlay -->
-  <div class="cart-overlay" id="cartOverlay"></div>
-
-  <!-- Cart drawer -->
-  <aside class="cart-drawer" id="cartDrawer" aria-label="{{ 'cart.general.title' | t }}" aria-hidden="true">
-    <div class="cart-hdr">
-      <h2>{{ 'cart.general.title' | t }} (<span id="cartItemCount">{{ cart.item_count }}</span>)</h2>
-      <button class="cart-x" id="cartClose" aria-label="Close cart">&#10005;</button>
-    </div>
-
-    {%- assign threshold = settings.free_shipping_threshold | default: 100 -%}
-    {%- assign cart_total_euros = cart.total_price | divided_by: 100.0 -%}
-    {%- assign remaining = threshold | minus: cart_total_euros -%}
-
-    <div class="cart-ship-bar" id="cartShipBar">
-      {%- if cart_total_euros >= threshold -%}
-        You have unlocked free shipping.
-      {%- else -%}
-        You are &euro;{{ remaining | round: 0 }} away from free shipping
-      {%- endif -%}
-      <div class="ship-track">
-        {%- assign pct = cart_total_euros | divided_by: threshold | times: 100 | at_most: 100 -%}
-        <div class="ship-fill" style="width:{{ pct }}%"></div>
-      </div>
-    </div>
-
-    <div class="cart-items" id="cartItems">
-      {%- for item in cart.items -%}
-        <div class="citem" data-key="{{ item.key }}">
-          <div class="citem-img">
-            {%- if item.image -%}
-              <img src="{{ item.image | img_url: '160x' }}" alt="{{ item.title | escape }}" loading="lazy">
-            {%- endif -%}
-          </div>
-          <div>
-            <div class="citem-name">{{ item.product.title }}</div>
-            <div class="citem-var">
-              {%- unless item.variant.title == 'Default Title' -%}{{ item.variant.title }}{%- endunless -%}
-            </div>
-            <div class="qty-ctrl">
-              <button class="qty-btn" data-action="decrease" data-key="{{ item.key }}">&#8722;</button>
-              <span class="qty-val">{{ item.quantity }}</span>
-              <button class="qty-btn" data-action="increase" data-key="{{ item.key }}">&#43;</button>
-            </div>
-          </div>
-          <button class="citem-rm" data-key="{{ item.key }}">{{ 'cart.general.remove' | t }}</button>
-        </div>
-      {%- else -%}
-        <p style="font-size:14px;color:#999;text-align:center;padding:40px 0;">Your cart is empty.</p>
-      {%- endfor -%}
-    </div>
-
-    <div class="cart-foot">
-      <div class="cart-sub">
-        <span class="cart-sub-label">{{ 'cart.general.subtotal' | t }}</span>
-        <span class="cart-sub-amt" id="cartSubtotal">{{ cart.total_price | money }}</span>
-      </div>
-      <a href="/checkout" class="cart-checkout">{{ 'cart.general.checkout' | t }}</a>
-      <span class="cart-cnt" id="cartContinue">{{ 'cart.general.continue_shopping' | t }}</span>
-    </div>
-  </aside>
-
-  <!-- Mobile menu -->
-  <div class="mob-menu" id="mobMenu" aria-hidden="true">
-    <button class="mob-close" id="mobClose" aria-label="Close menu">&#10005;</button>
-    <a href="{{ routes.root_url }}" class="site-logo" style="margin-bottom:52px;">
-      <span class="logo-a">{{ shop.name | split: ' ' | first }}</span>
-      <span class="logo-b">{{ shop.name | split: ' ' | last }}</span>
-    </a>
-    <nav class="mob-nav">
-      {%- for link in linklists.main-menu.links -%}
-        <a href="{{ link.url }}">{{ link.title }}</a>
-      {%- else -%}
-        <a href="{{ routes.root_url }}">Home</a>
-        <a href="/collections/new-arrivals">New Arrivals</a>
-        <a href="/collections/shirts">Shirts</a>
-        <a href="/collections/trousers">Trousers</a>
-        <a href="/collections/loafers">Loafers</a>
-        <a href="/pages/about">About</a>
-        <a href="/pages/contact">Contact</a>
-      {%- endfor -%}
-    </nav>
-  </div>
-
-  <script src="{{ 'theme.js' | asset_url }}" defer></script>
+  {{ 'theme.js' | asset_url | script_tag }}
 
 </body>
 </html>

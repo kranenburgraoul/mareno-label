@@ -1,8 +1,8 @@
 <header class="site-header" id="siteHeader">
   <div class="hdr-inner">
 
-    <a href="{{ routes.root_url }}" class="site-logo" aria-label="{{ shop.name }} – Home">
-      <span class="logo-a">{{ section.settings.logo_main | default: shop.name | split: ' ' | first }}</span>
+    <a href="{{ routes.root_url }}" class="site-logo" aria-label="{{ shop.name }}">
+      <span class="logo-a">{{ section.settings.logo_main | default: 'Mareno' }}</span>
       <span class="logo-b">{{ section.settings.logo_sub | default: 'Label' }}</span>
     </a>
 
@@ -11,10 +11,7 @@
         <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
       {%- else -%}
         <a href="{{ routes.root_url }}">Home</a>
-        <a href="/collections/new-arrivals">New Arrivals</a>
-        <a href="/collections/shirts">Shirts</a>
-        <a href="/collections/trousers">Trousers</a>
-        <a href="/collections/loafers">Loafers</a>
+        <a href="/collections/all">Shop</a>
         <a href="/pages/about">About</a>
         <a href="/pages/contact">Contact</a>
       {%- endfor -%}
@@ -33,13 +30,31 @@
   </div>
 </header>
 
+<div class="mob-menu" id="mobMenu" aria-hidden="true">
+  <button class="mob-close" id="mobClose" aria-label="Close menu">&#10005;</button>
+  <a href="{{ routes.root_url }}" class="site-logo" style="margin-bottom:48px;">
+    <span class="logo-a">{{ section.settings.logo_main | default: 'Mareno' }}</span>
+    <span class="logo-b">{{ section.settings.logo_sub | default: 'Label' }}</span>
+  </a>
+  <nav class="mob-nav">
+    {%- for link in linklists[section.settings.menu].links -%}
+      <a href="{{ link.url }}">{{ link.title }}</a>
+    {%- else -%}
+      <a href="{{ routes.root_url }}">Home</a>
+      <a href="/collections/all">Shop</a>
+      <a href="/pages/about">About</a>
+      <a href="/pages/contact">Contact</a>
+    {%- endfor -%}
+  </nav>
+</div>
+
 {% schema %}
 {
   "name": "Header",
   "settings": [
-    { "type": "text", "id": "logo_main", "label": "Logo — main word", "default": "Mareno" },
-    { "type": "text", "id": "logo_sub",  "label": "Logo — sub word",  "default": "Label" },
-    { "type": "link_list", "id": "menu", "label": "Navigation menu" }
+    { "type": "text",      "id": "logo_main", "label": "Logo — main word", "default": "Mareno" },
+    { "type": "text",      "id": "logo_sub",  "label": "Logo — sub word",  "default": "Label" },
+    { "type": "link_list", "id": "menu",      "label": "Navigation menu",  "default": "main-menu" }
   ]
 }
 {% endschema %}
