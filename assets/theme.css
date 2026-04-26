@@ -112,32 +112,36 @@ h3 { font-size: clamp(1.2rem, 1.8vw, 1.5rem); font-weight: 400; letter-spacing: 
   height: var(--ann-h);
   background: var(--black);
   color: var(--off-white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
   position: relative;
   z-index: 100;
 }
-.ann-track { display: flex; flex-direction: column; animation: ann-cycle 12s infinite; }
+.ann-track {
+  display: flex;
+  width: max-content;
+  animation: ann-scroll 28s linear infinite;
+}
+.ann-bar:hover .ann-track { animation-play-state: paused; }
 .ann-item {
-  height: var(--ann-h);
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 32px;
+  height: var(--ann-h);
+  padding: 0 48px;
   font-size: 10.5px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   white-space: nowrap;
+  gap: 48px;
 }
-.ann-sep { color: rgba(245,245,245,0.3); }
+.ann-item::after {
+  content: '·';
+  opacity: 0.35;
+  font-size: 16px;
+}
 
-@keyframes ann-cycle {
-  0%,  28% { transform: translateY(0); }
-  33%, 61% { transform: translateY(calc(-1 * var(--ann-h))); }
-  66%, 94% { transform: translateY(calc(-2 * var(--ann-h))); }
-  99%,100% { transform: translateY(0); }
+@keyframes ann-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 /* ============================================

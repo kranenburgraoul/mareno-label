@@ -4,7 +4,7 @@
       <div class="ann-item" {{ block.shopify_attributes }}>{{ block.settings.message }}</div>
     {%- endfor -%}
     {%- for block in section.blocks -%}
-      <div class="ann-item" {{ block.shopify_attributes }}>{{ block.settings.message }}</div>
+      <div class="ann-item">{{ block.settings.message }}</div>
     {%- endfor -%}
   </div>
 </div>
@@ -12,7 +12,7 @@
 {% schema %}
 {
   "name": "Announcement Bar",
-  "max_blocks": 5,
+  "max_blocks": 8,
   "blocks": [
     {
       "type": "message",
