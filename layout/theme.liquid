@@ -18,10 +18,6 @@
 
   <link rel="canonical" href="{{ canonical_url }}">
 
-  {%- if settings.favicon != blank -%}
-    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32 }}">
-  {%- endif -%}
-
   {{ content_for_header }}
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,14 +32,13 @@
   {% section 'announcement-bar' %}
   {% section 'header' %}
 
-  <main id="MainContent" role="main">
+  <main id="MainContent" role="main" tabindex="-1">
     {{ content_for_layout }}
   </main>
 
   {% section 'footer' %}
-  {% section 'cart-drawer' %}
 
-  {{ 'theme.js' | asset_url | script_tag }}
+  <script src="{{ 'theme.js' | asset_url }}" defer></script>
 
 </body>
 </html>

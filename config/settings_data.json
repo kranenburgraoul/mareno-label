@@ -4,7 +4,33 @@
     "color_background": "#F5F5F5",
     "color_beige": "#D6CFC7",
     "color_green": "#2F3E34",
-    "free_shipping_threshold": 100
-  },
-  "presets": {}
+    "free_shipping_threshold": 100,
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {
+          "logo_main": "Mareno",
+          "logo_sub": "Label",
+          "menu": "main-menu"
+        }
+      },
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "settings": {
+          "message_1": "Free shipping from €100 · Easy returns within 14 days",
+          "message_2": "New summer essentials — now available",
+          "message_3": "Designed in Europe · Shipped worldwide"
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {
+          "logo_main": "Mareno",
+          "logo_sub": "Label",
+          "tagline": "Effortless style for modern men. Minimal menswear essentials for everyday confidence."
+        }
+      }
+    },
+    "content_for_index": []
+  }
 }
