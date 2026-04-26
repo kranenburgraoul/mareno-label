@@ -1,0 +1,11 @@
+<div class="container" style="padding:80px 40px 120px;max-width:800px;">
+  <p style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#999;margin-bottom:16px;">{{ article.published_at | date: '%B %d, %Y' }}</p>
+  <h1 style="font-weight:300;margin-bottom:40px;">{{ article.title }}</h1>
+  {%- if article.image -%}
+    <img src="{{ article.image | img_url: '1200x' }}" alt="{{ article.image.alt | escape }}" style="width:100%;margin-bottom:48px;">
+  {%- endif -%}
+  <div class="rte" style="font-size:16px;line-height:1.9;color:#444;">{{ article.content }}</div>
+  <div style="margin-top:64px;padding-top:40px;border-top:1px solid #eee;">
+    <a href="{{ blog.url }}" style="font-size:13px;color:#999;text-decoration:underline;">&larr; Back to {{ blog.title }}</a>
+  </div>
+</div>

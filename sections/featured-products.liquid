@@ -53,7 +53,7 @@
       {%- else -%}
         {%- assign placeholder_products = 'Linen Shirt,Short Sleeve Polo,Lightweight Chino,Summer Loafer' | split: ',' -%}
         {%- assign placeholder_prices = '€89,€79,€99,€149' | split: ',' -%}
-        {%- assign placeholder_descs = 'Breathable linen\, relaxed modern fit,Pique cotton\, tailored modern cut,Slim tapered\, wrinkle-resistant,Italian suede\, cushioned sole' | split: ',' -%}
+        {%- assign placeholder_descs = 'Breathable linen · relaxed fit|Pique cotton · modern cut|Slim tapered · wrinkle-free|Italian suede · cushioned sole' | split: '|' -%}
         {%- assign placeholder_badges = 'Best Seller,New,,New' | split: ',' -%}
         {%- for name in placeholder_products -%}
           <article class="product-card reveal">

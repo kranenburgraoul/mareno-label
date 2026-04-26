@@ -1,0 +1,18 @@
+<div class="container" style="padding:80px 40px 120px;">
+  <h1>{{ blog.title }}</h1>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:56px;">
+    {%- for article in blog.articles -%}
+      <a href="{{ article.url }}" style="display:block;text-decoration:none;color:inherit;">
+        {%- if article.image -%}
+          <img src="{{ article.image | img_url: '600x400', crop: 'center' }}" alt="{{ article.image.alt | escape }}" style="width:100%;aspect-ratio:3/2;object-fit:cover;margin-bottom:16px;">
+        {%- endif -%}
+        <p style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#999;margin-bottom:8px;">{{ article.published_at | date: '%B %d, %Y' }}</p>
+        <h3 style="font-size:18px;font-weight:400;margin-bottom:8px;">{{ article.title }}</h3>
+        <p style="font-size:14px;color:#666;">{{ article.excerpt | strip_html | truncate: 100 }}</p>
+      </a>
+    {%- endfor -%}
+  </div>
+  {%- if paginate.pages > 1 -%}
+    <div class="pagination" style="margin-top:64px;text-align:center;">{{ paginate | default_pagination }}</div>
+  {%- endif -%}
+</div>
