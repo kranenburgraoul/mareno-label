@@ -1,40 +1,213 @@
-<div class="auth-page">
-  <div class="auth-box">
-    <h1>Sign in</h1>
+<section class="auth-section">
+  <div class="auth-grid">
 
-    {%- form 'customer_login' -%}
-      {%- if form.errors -%}
-        <div class="form-errors">{{ form.errors | default_errors }}</div>
-      {%- endif -%}
-
-      <div class="form-group">
-        <label for="CustomerEmail">Email</label>
-        <input type="email" name="customer[email]" id="CustomerEmail" autocomplete="email" required>
+    <div class="auth-panel-left">
+      <a href="{{ routes.root_url }}" class="auth-logo">
+        <span class="logo-a">Mareno</span>
+        <span class="logo-b">Label</span>
+      </a>
+      <div class="auth-brand-text">
+        <h1>Welcome back.</h1>
+        <p>Sign in to view your orders, track shipments and manage your account.</p>
       </div>
-      <div class="form-group">
-        <label for="CustomerPassword">Password</label>
-        <input type="password" name="customer[password]" id="CustomerPassword" autocomplete="current-password" required>
+      <div class="auth-brand-foot">
+        <span>New to Mareno Label?</span>
+        <a href="{{ routes.account_register_url }}">Create an account &rarr;</a>
       </div>
-
-      <button type="submit" class="btn btn-primary" style="width:100%;">Sign in</button>
-    {%- endform -%}
-
-    <div class="auth-links">
-      <a href="{{ routes.account_recover_url }}">Forgot password?</a>
-      <a href="{{ routes.account_register_url }}">Create account</a>
     </div>
+
+    <div class="auth-panel-right">
+      <div class="auth-form-wrap">
+        <span class="eyebrow">Customer account</span>
+        <h2>Sign in</h2>
+
+        {%- form 'customer_login' -%}
+          {%- if form.errors -%}
+            <div class="form-errors">
+              {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+
+          <div class="field">
+            <label for="CustomerEmail">Email</label>
+            <input type="email" name="customer[email]" id="CustomerEmail"
+              autocomplete="email" placeholder="your@email.com" required>
+          </div>
+
+          <div class="field">
+            <label for="CustomerPassword">Password</label>
+            <input type="password" name="customer[password]" id="CustomerPassword"
+              autocomplete="current-password" placeholder="••••••••" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary auth-submit">Sign in</button>
+
+          <a href="{{ routes.account_recover_url }}" class="forgot-link">Forgot your password?</a>
+        {%- endform -%}
+
+        <div class="auth-divider"><span>or</span></div>
+
+        <a href="{{ routes.account_register_url }}" class="btn btn-secondary auth-register-btn">Create an account</a>
+      </div>
+    </div>
+
   </div>
-</div>
+</section>
 
 <style>
-.auth-page { min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 80px 40px; }
-.auth-box { width: 100%; max-width: 440px; }
-.auth-box h1 { font-size: 32px; font-weight: 300; margin-bottom: 40px; }
-.form-group { margin-bottom: 20px; }
-.form-group label { display: block; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; color: #666; }
-.form-group input { width: 100%; padding: 14px 16px; border: 1px solid #ddd; background: transparent; font-size: 14px; outline: none; transition: border-color 0.2s; box-sizing: border-box; }
-.form-group input:focus { border-color: var(--black); }
-.auth-links { display: flex; justify-content: space-between; margin-top: 24px; }
-.auth-links a { font-size: 13px; color: #666; text-decoration: underline; }
-.form-errors { background: #fff0f0; border: 1px solid #fcc; padding: 12px 16px; font-size: 13px; color: #c00; margin-bottom: 24px; }
+.auth-section {
+  min-height: calc(100vh - var(--ann-h));
+  display: flex;
+}
+.auth-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+
+/* Left */
+.auth-panel-left {
+  background: var(--black);
+  color: var(--off-white);
+  padding: 64px 72px;
+  display: flex;
+  flex-direction: column;
+}
+.auth-logo {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  margin-bottom: auto;
+}
+.auth-logo .logo-a { color: var(--off-white); }
+.auth-logo .logo-b { color: var(--off-white); opacity: 0.4; }
+.auth-brand-text {
+  padding: 80px 0 60px;
+}
+.auth-brand-text h1 {
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--off-white);
+  margin-bottom: 20px;
+}
+.auth-brand-text p {
+  font-size: 15px;
+  line-height: 1.8;
+  opacity: 0.55;
+  max-width: 340px;
+}
+.auth-brand-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.auth-brand-foot span {
+  font-size: 12px;
+  opacity: 0.4;
+  letter-spacing: 0.05em;
+}
+.auth-brand-foot a {
+  font-size: 13px;
+  color: var(--off-white);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+}
+.auth-brand-foot a:hover { opacity: 0.7; }
+
+/* Right */
+.auth-panel-right {
+  background: var(--off-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 72px;
+}
+.auth-form-wrap {
+  width: 100%;
+  max-width: 380px;
+}
+.auth-form-wrap .eyebrow {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  opacity: 0.4;
+  margin-bottom: 16px;
+}
+.auth-form-wrap h2 {
+  font-size: 28px;
+  font-weight: 300;
+  margin-bottom: 40px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 28px;
+}
+.field label {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  opacity: 0.45;
+  margin-bottom: 10px;
+}
+.field input {
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,0.15);
+  background: transparent;
+  font-family: var(--font);
+  font-size: 15px;
+  color: var(--black);
+  padding: 10px 0;
+  outline: none;
+  transition: border-color 0.25s;
+}
+.field input::placeholder { color: rgba(0,0,0,0.28); }
+.field input:focus { border-bottom-color: var(--black); }
+.auth-submit { width: 100%; margin-bottom: 16px; }
+.forgot-link {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  color: #888;
+  text-decoration: underline;
+  margin-top: 4px;
+}
+.forgot-link:hover { color: var(--black); }
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 32px 0;
+  color: #ccc;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(0,0,0,0.1);
+}
+.auth-register-btn { width: 100%; text-align: center; }
+.form-errors {
+  background: #fff0f0;
+  border: 1px solid #f5c6c6;
+  padding: 14px 18px;
+  border-radius: 3px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: #b00;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .auth-grid { grid-template-columns: 1fr; }
+  .auth-panel-left { display: none; }
+  .auth-panel-right { padding: 64px 32px; min-height: calc(100vh - var(--ann-h)); }
+}
 </style>
