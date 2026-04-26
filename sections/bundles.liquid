@@ -1,6 +1,5 @@
 <section class="bundles">
   <div class="container">
-
     <div class="section-head reveal">
       <span class="eyebrow">{{ section.settings.eyebrow }}</span>
       <h2>{{ section.settings.heading }}</h2>
@@ -8,36 +7,22 @@
         <p>{{ section.settings.subheading }}</p>
       {%- endif -%}
     </div>
-
     <div class="bundles-grid">
-      {%- for i in (1..3) -%}
-        {%- assign b_name   = section.settings['bundle_name_'   | append: i] -%}
-        {%- assign b_items  = section.settings['bundle_items_'  | append: i] -%}
-        {%- assign b_price  = section.settings['bundle_price_'  | append: i] -%}
-        {%- assign b_save   = section.settings['bundle_save_'   | append: i] -%}
-        {%- assign b_url    = section.settings['bundle_url_'    | append: i] -%}
-        {%- assign b_num    = '0' | append: i -%}
-        <div class="bundle-card reveal">
-          <span class="bundle-num">{{ b_num }}</span>
-          <h3 class="bundle-name">{{ b_name }}</h3>
-          <p class="bundle-items">{{ b_items | newline_to_br }}</p>
+      {%- for block in section.blocks -%}
+        <div class="bundle-card reveal" {{ block.shopify_attributes }}>
+          <span class="bundle-num">0{{ forloop.index }}</span>
+          <h3 class="bundle-name">{{ block.settings.name }}</h3>
+          <p class="bundle-items">{{ block.settings.items | newline_to_br }}</p>
           <div class="bundle-price-row">
-            <span class="bundle-price">{{ b_price }}</span>
-            {%- if b_save != blank -%}
-              <span class="bundle-save">{{ b_save }}</span>
+            <span class="bundle-price">{{ block.settings.price }}</span>
+            {%- if block.settings.save != blank -%}
+              <span class="bundle-save">{{ block.settings.save }}</span>
             {%- endif -%}
           </div>
-          <a href="{{ b_url | default: '#' }}" class="btn btn-primary">Shop Bundle</a>
+          <a href="{{ block.settings.url | default: '#' }}" class="btn btn-primary">Shop Bundle</a>
         </div>
       {%- endfor -%}
     </div>
-
-    <div class="bundles-footer reveal">
-      {%- if section.settings.cta_label != blank -%}
-        <a href="{{ section.settings.cta_url | default: '#' }}" class="btn btn-secondary">{{ section.settings.cta_label }}</a>
-      {%- endif -%}
-    </div>
-
   </div>
 </section>
 
@@ -47,28 +32,29 @@
   "settings": [
     { "type": "text",     "id": "eyebrow",    "label": "Eyebrow",    "default": "Curated looks" },
     { "type": "text",     "id": "heading",    "label": "Heading",    "default": "Complete the Look" },
-    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Carefully considered combinations that take the guesswork out of dressing well." },
-    { "type": "text",     "id": "cta_label",  "label": "CTA label",  "default": "View All Bundles" },
-    { "type": "url",      "id": "cta_url",    "label": "CTA link" },
-    { "type": "header",   "content": "Bundle 1" },
-    { "type": "text",     "id": "bundle_name_1",  "label": "Name",   "default": "Summer Set" },
-    { "type": "textarea", "id": "bundle_items_1", "label": "Items (one per line)", "default": "Linen Shirt\nLightweight Chino" },
-    { "type": "text",     "id": "bundle_price_1", "label": "Price",  "default": "€169" },
-    { "type": "text",     "id": "bundle_save_1",  "label": "Save badge", "default": "Save €19" },
-    { "type": "url",      "id": "bundle_url_1",   "label": "Link" },
-    { "type": "header",   "content": "Bundle 2" },
-    { "type": "text",     "id": "bundle_name_2",  "label": "Name",   "default": "Smart Casual Set" },
-    { "type": "textarea", "id": "bundle_items_2", "label": "Items",  "default": "Short Sleeve Polo\nLightweight Chino\nSummer Loafer" },
-    { "type": "text",     "id": "bundle_price_2", "label": "Price",  "default": "€299" },
-    { "type": "text",     "id": "bundle_save_2",  "label": "Save badge", "default": "Save €28" },
-    { "type": "url",      "id": "bundle_url_2",   "label": "Link" },
-    { "type": "header",   "content": "Bundle 3" },
-    { "type": "text",     "id": "bundle_name_3",  "label": "Name",   "default": "Weekend Set" },
-    { "type": "textarea", "id": "bundle_items_3", "label": "Items",  "default": "Linen Shirt\nSummer Loafer" },
-    { "type": "text",     "id": "bundle_price_3", "label": "Price",  "default": "€219" },
-    { "type": "text",     "id": "bundle_save_3",  "label": "Save badge", "default": "Save €19" },
-    { "type": "url",      "id": "bundle_url_3",   "label": "Link" }
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Carefully considered combinations that take the guesswork out of dressing well." }
   ],
-  "presets": [{ "name": "Bundles" }]
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "bundle",
+      "name": "Bundle",
+      "settings": [
+        { "type": "text",     "id": "name",  "label": "Bundle name",  "default": "Summer Set" },
+        { "type": "textarea", "id": "items", "label": "Items (one per line)", "default": "Linen Shirt\nLightweight Chino" },
+        { "type": "text",     "id": "price", "label": "Price",        "default": "€169" },
+        { "type": "text",     "id": "save",  "label": "Save badge",   "default": "Save €19" },
+        { "type": "url",      "id": "url",   "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Bundles",
+    "blocks": [
+      { "type": "bundle", "settings": { "name": "Summer Set",       "items": "Linen Shirt\nLightweight Chino",              "price": "€169", "save": "Save €19" } },
+      { "type": "bundle", "settings": { "name": "Smart Casual Set", "items": "Short Sleeve Polo\nChino\nSummer Loafer",     "price": "€299", "save": "Save €28" } },
+      { "type": "bundle", "settings": { "name": "Weekend Set",      "items": "Linen Shirt\nSummer Loafer",                  "price": "€219", "save": "Save €19" } }
+    ]
+  }]
 }
 {% endschema %}

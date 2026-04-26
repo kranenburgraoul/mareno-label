@@ -1,44 +1,44 @@
 <section class="usp-row" aria-label="Key benefits">
   <div class="usp-inner">
-    <div class="usp-item">
-      <svg class="usp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-        <path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11z"/>
-      </svg>
-      <span class="usp-text">{{ section.settings.usp_1 }}</span>
-    </div>
-    <div class="usp-item">
-      <svg class="usp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-        <path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/>
-        <path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/>
-        <path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/>
-      </svg>
-      <span class="usp-text">{{ section.settings.usp_2 }}</span>
-    </div>
-    <div class="usp-item">
-      <svg class="usp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-        <rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/>
-      </svg>
-      <span class="usp-text">{{ section.settings.usp_3 }}</span>
-    </div>
-    <div class="usp-item">
-      <svg class="usp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/>
-      </svg>
-      <span class="usp-text">{{ section.settings.usp_4 }}</span>
-    </div>
+    {%- for block in section.blocks -%}
+      <div class="usp-item" {{ block.shopify_attributes }}>
+        {%- case forloop.index -%}
+          {%- when 1 -%}
+            <svg class="usp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 22s8-4.5 8-11V5l-8-3-8 3v6c0 6.5 8 11 8 11z"/></svg>
+          {%- when 2 -%}
+            <svg class="usp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
+          {%- when 3 -%}
+            <svg class="usp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+          {%- else -%}
+            <svg class="usp-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+        {%- endcase -%}
+        <span class="usp-text">{{ block.settings.text }}</span>
+      </div>
+    {%- endfor -%}
   </div>
 </section>
 
 {% schema %}
 {
   "name": "USP Row",
-  "settings": [
-    { "type": "text", "id": "usp_1", "label": "USP 1", "default": "Free shipping from €100" },
-    { "type": "text", "id": "usp_2", "label": "USP 2", "default": "14-day easy returns" },
-    { "type": "text", "id": "usp_3", "label": "USP 3", "default": "Secure checkout" },
-    { "type": "text", "id": "usp_4", "label": "USP 4", "default": "Shipped worldwide" }
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "item",
+      "name": "USP item",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Your USP here" }
+      ]
+    }
   ],
-  "presets": [{ "name": "USP Row" }]
+  "presets": [{
+    "name": "USP Row",
+    "blocks": [
+      { "type": "item", "settings": { "text": "Free shipping from €100" } },
+      { "type": "item", "settings": { "text": "14-day easy returns" } },
+      { "type": "item", "settings": { "text": "Secure checkout" } },
+      { "type": "item", "settings": { "text": "Shipped worldwide" } }
+    ]
+  }]
 }
 {% endschema %}
