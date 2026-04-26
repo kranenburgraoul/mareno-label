@@ -1,0 +1,272 @@
+<section class="contact-section">
+  <div class="contact-grid">
+
+    <!-- Left: info panel -->
+    <div class="contact-info">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h1 class="contact-heading">{{ section.settings.heading }}</h1>
+      <p class="contact-sub">{{ section.settings.subtext }}</p>
+
+      <ul class="contact-details">
+        {%- if section.settings.email != blank -%}
+          <li>
+            <span class="cd-label">Email</span>
+            <a href="mailto:{{ section.settings.email }}" class="cd-value">{{ section.settings.email }}</a>
+          </li>
+        {%- endif -%}
+        {%- if section.settings.response_time != blank -%}
+          <li>
+            <span class="cd-label">Response time</span>
+            <span class="cd-value">{{ section.settings.response_time }}</span>
+          </li>
+        {%- endif -%}
+        {%- if section.settings.location != blank -%}
+          <li>
+            <span class="cd-label">Based in</span>
+            <span class="cd-value">{{ section.settings.location }}</span>
+          </li>
+        {%- endif -%}
+      </ul>
+
+      <div class="contact-divider"></div>
+
+      <div class="contact-social">
+        {%- if section.settings.instagram_url != blank -%}
+          <a href="{{ section.settings.instagram_url }}" class="social-pill" target="_blank" rel="noopener">Instagram</a>
+        {%- endif -%}
+        {%- if section.settings.tiktok_url != blank -%}
+          <a href="{{ section.settings.tiktok_url }}" class="social-pill" target="_blank" rel="noopener">TikTok</a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <!-- Right: form -->
+    <div class="contact-form-wrap">
+      {%- if form.posted_successfully? -%}
+        <div class="contact-success">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="19" stroke="#2F3E34" stroke-width="1.5"/><path d="M12 20.5l5.5 5.5L28 15" stroke="#2F3E34" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>Message received</h3>
+          <p>Thanks for reaching out — we'll be in touch shortly.</p>
+        </div>
+      {%- else -%}
+        {%- form 'contact' -%}
+          {%- if form.errors -%}
+            <div class="form-errors">
+              {%- for field in form.errors -%}
+                <p>{{ field | capitalize }}: {{ form.errors.messages[field] }}</p>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          <div class="field-row">
+            <div class="field">
+              <label for="ContactName">Name</label>
+              <input type="text" id="ContactName" name="contact[name]" value="{{ form.name }}" placeholder="Your name" autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="ContactEmail">Email</label>
+              <input type="email" id="ContactEmail" name="contact[email]" value="{{ form.email }}" placeholder="your@email.com" autocomplete="email" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="ContactSubject">Subject</label>
+            <input type="text" id="ContactSubject" name="contact[subject]" value="{{ form.subject }}" placeholder="What's it about?">
+          </div>
+
+          <div class="field">
+            <label for="ContactBody">Message</label>
+            <textarea id="ContactBody" name="contact[body]" rows="6" placeholder="Tell us how we can help…" required>{{ form.body }}</textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary contact-submit">Send message</button>
+        {%- endform -%}
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+<style>
+.contact-section {
+  min-height: calc(100vh - var(--hdr-h) - var(--ann-h));
+  display: flex;
+  align-items: stretch;
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  min-height: 100%;
+}
+
+/* Left panel */
+.contact-info {
+  background: var(--black);
+  color: var(--off-white);
+  padding: 100px 72px;
+  display: flex;
+  flex-direction: column;
+}
+.contact-info .eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-bottom: 24px;
+  display: block;
+}
+.contact-heading {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 300;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--off-white);
+  margin-bottom: 24px;
+}
+.contact-sub {
+  font-size: 15px;
+  line-height: 1.8;
+  opacity: 0.65;
+  max-width: 340px;
+  margin-bottom: 56px;
+}
+.contact-details {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.cd-label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  opacity: 0.4;
+  margin-bottom: 6px;
+}
+.cd-value {
+  font-size: 15px;
+  color: var(--off-white);
+  text-decoration: none;
+}
+a.cd-value:hover { opacity: 0.7; }
+.contact-divider {
+  width: 40px;
+  height: 1px;
+  background: rgba(255,255,255,0.15);
+  margin: 48px 0;
+}
+.contact-social {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.social-pill {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--off-white);
+  text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 8px 18px;
+  border-radius: 100px;
+  transition: border-color 0.25s, background 0.25s;
+}
+.social-pill:hover {
+  border-color: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.07);
+}
+
+/* Right panel – form */
+.contact-form-wrap {
+  background: var(--off-white);
+  padding: 100px 72px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+.field label {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--black);
+  opacity: 0.5;
+  margin-bottom: 10px;
+}
+.field input,
+.field textarea {
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,0.15);
+  background: transparent;
+  font-family: var(--font);
+  font-size: 15px;
+  color: var(--black);
+  padding: 10px 0;
+  outline: none;
+  transition: border-color 0.25s;
+  resize: none;
+}
+.field input::placeholder,
+.field textarea::placeholder { color: rgba(0,0,0,0.3); }
+.field input:focus,
+.field textarea:focus { border-bottom-color: var(--black); }
+.contact-submit { margin-top: 12px; align-self: flex-start; }
+
+/* Success state */
+.contact-success {
+  text-align: center;
+  padding: 60px 0;
+}
+.contact-success svg { margin-bottom: 24px; }
+.contact-success h3 { font-size: 22px; font-weight: 400; margin-bottom: 12px; }
+.contact-success p { color: #666; font-size: 15px; }
+
+/* Form errors */
+.form-errors {
+  background: #fff0f0;
+  border: 1px solid #f5c6c6;
+  padding: 16px 20px;
+  border-radius: 4px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: #b00;
+}
+
+/* Responsive */
+@media (max-width: 860px) {
+  .contact-grid { grid-template-columns: 1fr; }
+  .contact-info { padding: 72px 32px; }
+  .contact-form-wrap { padding: 72px 32px; }
+  .field-row { grid-template-columns: 1fr; gap: 0; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Contact Page",
+  "settings": [
+    { "type": "text",     "id": "eyebrow",       "label": "Eyebrow",        "default": "Get in touch" },
+    { "type": "text",     "id": "heading",        "label": "Heading",        "default": "We'd love to hear from you." },
+    { "type": "textarea", "id": "subtext",        "label": "Subtext",        "default": "Questions about an order, sizing advice, or just want to say hello? Drop us a message and we'll get back to you." },
+    { "type": "text",     "id": "email",          "label": "Email address",  "default": "hello@marenolabel.com" },
+    { "type": "text",     "id": "response_time",  "label": "Response time",  "default": "Within 1–2 business days" },
+    { "type": "text",     "id": "location",       "label": "Location",       "default": "Europe" },
+    { "type": "url",      "id": "instagram_url",  "label": "Instagram URL" },
+    { "type": "url",      "id": "tiktok_url",     "label": "TikTok URL" }
+  ],
+  "presets": [{ "name": "Contact Page" }]
+}
+{% endschema %}

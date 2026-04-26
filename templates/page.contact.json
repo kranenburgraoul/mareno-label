@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "main": {
+      "type": "contact-page",
+      "settings": {
+        "eyebrow": "Get in touch",
+        "heading": "We'd love to hear from you.",
+        "subtext": "Questions about an order, sizing advice, or just want to say hello? Drop us a message and we'll get back to you.",
+        "email": "hello@marenolabel.com",
+        "response_time": "Within 1–2 business days",
+        "location": "Europe",
+        "instagram_url": "",
+        "tiktok_url": ""
+      }
+    }
+  },
+  "order": ["main"]
+}
