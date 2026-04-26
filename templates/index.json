@@ -2,100 +2,49 @@
   "sections": {
     "hero": {
       "type": "hero-banner",
-      "settings": {
-        "eyebrow": "Summer 2025 Collection",
-        "heading": "Effortless style for modern men.",
-        "subheading": "Minimal menswear essentials designed to make every outfit look sharp, comfortable and easy to wear — wherever the day takes you.",
-        "cta_primary_label": "Shop Collection",
-        "cta_primary_url": "/collections/all",
-        "cta_secondary_label": "Explore Essentials",
-        "cta_secondary_url": "/pages/about",
-        "trust_1_label": "Premium Essentials",
-        "trust_1_sub": "Refined menswear",
-        "trust_2_label": "Travel Ready",
-        "trust_2_sub": "Pack light, look sharp",
-        "trust_3_label": "Easy to Combine",
-        "trust_3_sub": "Effortless styling"
-      }
+      "settings": {}
     },
     "usp": {
       "type": "usp-row",
-      "settings": {
-        "usp_1": "Free shipping from €100",
-        "usp_2": "14-day easy returns",
-        "usp_3": "Secure checkout",
-        "usp_4": "Shipped worldwide"
-      }
+      "settings": {}
     },
-    "featured_products": {
+    "featured": {
       "type": "featured-products",
-      "settings": {
-        "eyebrow": "Curated selection",
-        "heading": "Summer Essentials",
-        "subheading": "Clean pieces designed to carry you from morning meetings to summer evenings without a second thought."
-      }
+      "settings": {}
     },
-    "collection_grid": {
+    "categories": {
       "type": "collection-grid",
-      "settings": {
-        "eyebrow": "Shop by category",
-        "heading": "The Collection"
-      }
+      "settings": {}
     },
     "bundles": {
       "type": "bundles",
-      "settings": {
-        "eyebrow": "Curated looks",
-        "heading": "Complete the Look",
-        "subheading": "Carefully considered combinations that take the guesswork out of dressing well."
-      }
+      "settings": {}
     },
     "benefits": {
       "type": "benefits",
-      "settings": {
-        "eyebrow": "Our promise",
-        "heading": "Why Mareno Label?",
-        "subheading": "Menswear made simple, sharp and reliable."
-      }
+      "settings": {}
     },
-    "how_it_works": {
+    "how": {
       "type": "how-it-works",
-      "settings": {
-        "eyebrow": "The approach",
-        "heading": "How to Build Your Effortless Wardrobe",
-        "subheading": "Three simple steps to looking sharp without overthinking it."
-      }
+      "settings": {}
     },
     "about": {
       "type": "about-brand",
-      "settings": {
-        "eyebrow": "The brand",
-        "heading": "Minimal menswear, made effortless.",
-        "text_1": "Mareno Label creates refined wardrobe essentials for men who value simplicity, comfort and style. Every piece is designed to be easy to wear, easy to combine and suitable for everyday life, travel and smart casual moments.",
-        "text_2": "We believe looking good should never feel complicated. That’s why every detail — the cut, the fabric, the colour — is considered from the perspective of the modern man.",
-        "cta_label": "About Mareno Label",
-        "cta_url": "/pages/about"
-      }
+      "settings": {}
     },
     "newsletter": {
       "type": "newsletter",
-      "settings": {
-        "eyebrow": "Stay connected",
-        "heading": "Join the Mareno List",
-        "subheading": "Get early access to new drops, styling tips and exclusive offers. No noise — just quality.",
-        "button_label": "Sign up",
-        "note": "We respect your privacy. Unsubscribe at any time."
-      }
+      "settings": {}
     }
   },
   "order": [
     "hero",
     "usp",
-    "featured_products",
-    "collection_grid",
+    "featured",
+    "categories",
     "bundles",
     "benefits",
-    "how_it_works",
+    "how",
     "about",
     "newsletter"
   ]
