@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "current": {
     "color_primary": "#111111",
@@ -26,23 +17,11 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "blocks": {
-          "message_y8BP8r": {
-            "type": "message",
-            "settings": {
-              "message": "Free shipping from €100 · Easy returns within 14 days"
-            }
-          },
-          "message_mErxKr": {
-            "type": "message",
-            "settings": {
-              "message": "Free shipping from €100 · Easy returns within 14 days"
-            }
-          }
+          "msg_1": { "type": "message", "settings": { "message": "Free shipping from €100 · Easy returns within 14 days" } },
+          "msg_2": { "type": "message", "settings": { "message": "New summer essentials — now available" } },
+          "msg_3": { "type": "message", "settings": { "message": "Designed in Europe · Shipped worldwide" } }
         },
-        "block_order": [
-          "message_y8BP8r",
-          "message_mErxKr"
-        ],
+        "block_order": ["msg_1", "msg_2", "msg_3"],
         "settings": {}
       },
       "footer": {
@@ -76,6 +55,13 @@
       },
       "usp-row": {
         "type": "usp-row",
+        "blocks": {
+          "usp_1": { "type": "item", "settings": { "text": "Free shipping from €100" } },
+          "usp_2": { "type": "item", "settings": { "text": "14-day easy returns" } },
+          "usp_3": { "type": "item", "settings": { "text": "Secure checkout" } },
+          "usp_4": { "type": "item", "settings": { "text": "Shipped worldwide" } }
+        },
+        "block_order": ["usp_1", "usp_2", "usp_3", "usp_4"],
         "settings": {}
       },
       "featured-products": {
@@ -89,6 +75,13 @@
       },
       "collection-grid": {
         "type": "collection-grid",
+        "blocks": {
+          "cat_1": { "type": "category", "settings": { "title": "Shirts",   "url": "/collections/shirts" } },
+          "cat_2": { "type": "category", "settings": { "title": "Polos",    "url": "/collections/polos" } },
+          "cat_3": { "type": "category", "settings": { "title": "Trousers", "url": "/collections/trousers" } },
+          "cat_4": { "type": "category", "settings": { "title": "Loafers",  "url": "/collections/loafers" } }
+        },
+        "block_order": ["cat_1", "cat_2", "cat_3", "cat_4"],
         "settings": {
           "eyebrow": "Shop by category",
           "heading": "The Collection"
@@ -96,6 +89,12 @@
       },
       "bundles": {
         "type": "bundles",
+        "blocks": {
+          "bundle_1": { "type": "bundle", "settings": { "name": "Summer Set",       "items": "Linen Shirt\nLightweight Chino",          "price": "€169", "save": "Save €19" } },
+          "bundle_2": { "type": "bundle", "settings": { "name": "Smart Casual Set", "items": "Short Sleeve Polo\nChino\nSummer Loafer",  "price": "€299", "save": "Save €28" } },
+          "bundle_3": { "type": "bundle", "settings": { "name": "Weekend Set",      "items": "Linen Shirt\nSummer Loafer",               "price": "€219", "save": "Save €19" } }
+        },
+        "block_order": ["bundle_1", "bundle_2", "bundle_3"],
         "settings": {
           "eyebrow": "Curated looks",
           "heading": "Complete the Look",
@@ -104,6 +103,13 @@
       },
       "benefits": {
         "type": "benefits",
+        "blocks": {
+          "ben_1": { "type": "benefit", "settings": { "title": "Smart Casual Ready", "text": "Every piece works for the office, dinner, weekend and everything in between. One wardrobe, multiple settings." } },
+          "ben_2": { "type": "benefit", "settings": { "title": "Breathable Fabrics", "text": "Summer-weight linen, cotton and blends that keep you comfortable from morning to evening." } },
+          "ben_3": { "type": "benefit", "settings": { "title": "Travel Friendly",    "text": "Wrinkle-resistant cuts and compact fabrics — pack less, arrive looking sharp." } },
+          "ben_4": { "type": "benefit", "settings": { "title": "Easy to Combine",    "text": "Neutral tones and considered cuts that mix and match effortlessly — build looks without overthinking." } }
+        },
+        "block_order": ["ben_1", "ben_2", "ben_3", "ben_4"],
         "settings": {
           "eyebrow": "Our promise",
           "heading": "Why Mareno Label?",
@@ -112,6 +118,12 @@
       },
       "how-it-works": {
         "type": "how-it-works",
+        "blocks": {
+          "step_1": { "type": "step", "settings": { "heading": "Choose Your Essentials", "text": "Start with clean, versatile pieces that work across multiple outfits. A linen shirt, a fitted chino, a quality loafer — these are your foundations." } },
+          "step_2": { "type": "step", "settings": { "heading": "Build Complete Looks",   "text": "Combine shirts, trousers and loafers without second-guessing yourself. Our pieces are designed to complement each other naturally." } },
+          "step_3": { "type": "step", "settings": { "heading": "Wear Anywhere",          "text": "From city days to summer evenings and weekend travel — the same pieces, multiple settings, always appropriate and comfortable." } }
+        },
+        "block_order": ["step_1", "step_2", "step_3"],
         "settings": {
           "eyebrow": "The approach",
           "heading": "How to Build Your Effortless Wardrobe",
