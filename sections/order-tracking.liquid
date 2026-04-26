@@ -1,0 +1,254 @@
+<section class="tracking-section">
+  <div class="container">
+
+    {%- if customer -%}
+
+      <div class="tracking-header reveal">
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        <h1 class="tracking-heading">{{ section.settings.heading }}</h1>
+        <p class="tracking-sub">Signed in as <strong>{{ customer.email }}</strong></p>
+      </div>
+
+      {%- if customer.orders.size > 0 -%}
+        <div class="orders-list">
+          {%- for order in customer.orders -%}
+            <div class="order-card reveal">
+              <div class="order-card-top">
+                <div class="order-meta">
+                  <span class="order-name">{{ order.name }}</span>
+                  <span class="order-date">{{ order.created_at | date: "%d %b %Y" }}</span>
+                </div>
+                <div class="order-badges">
+                  <span class="badge badge--{{ order.financial_status }}">{{ order.financial_status | replace: '_', ' ' | capitalize }}</span>
+                  <span class="badge badge--{{ order.fulfillment_status | default: 'unfulfilled' }}">
+                    {%- if order.fulfillment_status == 'fulfilled' -%}Shipped
+                    {%- elsif order.fulfillment_status == 'partial' -%}Partially shipped
+                    {%- else -%}Processing{%- endif -%}
+                  </span>
+                </div>
+              </div>
+
+              <div class="order-items">
+                {%- for line_item in order.line_items limit: 3 -%}
+                  <div class="order-item">
+                    {%- if line_item.image -%}
+                      <img src="{{ line_item.image | image_url: width: 80 }}" alt="{{ line_item.title }}" class="item-img">
+                    {%- else -%}
+                      <div class="item-img item-img--placeholder"></div>
+                    {%- endif -%}
+                    <div class="item-info">
+                      <span class="item-title">{{ line_item.title }}</span>
+                      {%- if line_item.variant.title != 'Default Title' -%}
+                        <span class="item-variant">{{ line_item.variant.title }}</span>
+                      {%- endif -%}
+                      <span class="item-qty">Qty: {{ line_item.quantity }}</span>
+                    </div>
+                  </div>
+                {%- endfor -%}
+                {%- if order.line_items.size > 3 -%}
+                  <span class="more-items">+{{ order.line_items.size | minus: 3 }} more item(s)</span>
+                {%- endif -%}
+              </div>
+
+              {%- if order.fulfillments.size > 0 -%}
+                <div class="tracking-info">
+                  {%- for fulfillment in order.fulfillments -%}
+                    {%- if fulfillment.tracking_number -%}
+                      <div class="tracking-row">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                        <span>Tracking: <strong>{{ fulfillment.tracking_number }}</strong></span>
+                        {%- if fulfillment.tracking_url -%}
+                          <a href="{{ fulfillment.tracking_url }}" target="_blank" rel="noopener" class="track-link">Track shipment &rarr;</a>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+
+              <div class="order-card-footer">
+                <span class="order-total">Total: {{ order.total_price | money }}</span>
+                <a href="{{ order.customer_url }}" class="btn btn-secondary order-detail-btn">View details</a>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+      {%- else -%}
+        <div class="no-orders reveal">
+          <p>You haven't placed any orders yet.</p>
+          <a href="/collections/all" class="btn btn-primary">Start shopping</a>
+        </div>
+      {%- endif -%}
+
+    {%- else -%}
+
+      <div class="tracking-split">
+        <div class="tracking-left reveal">
+          <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+          <h1 class="tracking-heading">{{ section.settings.heading }}</h1>
+          <p class="tracking-sub">{{ section.settings.subtext }}</p>
+
+          <div class="how-to">
+            <div class="how-step">
+              <span class="how-n">01</span>
+              <div>
+                <strong>Check your email</strong>
+                <p>Your order confirmation contains a direct link to your order status page.</p>
+              </div>
+            </div>
+            <div class="how-step">
+              <span class="how-n">02</span>
+              <div>
+                <strong>Log in to your account</strong>
+                <p>If you have an account, sign in below to view all your orders and real-time tracking.</p>
+              </div>
+            </div>
+            <div class="how-step">
+              <span class="how-n">03</span>
+              <div>
+                <strong>Need help?</strong>
+                <p>Contact us at <a href="mailto:{{ section.settings.support_email }}">{{ section.settings.support_email }}</a> with your order number.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tracking-right reveal">
+          <div class="login-card">
+            <h2>Sign in to track your order</h2>
+            <p>Log in to view your orders, tracking details and delivery status.</p>
+
+            {%- form 'customer_login' -%}
+              {%- if form.errors -%}
+                <div class="form-errors">
+                  {%- for field in form.errors -%}
+                    <p>{{ field | capitalize }}: {{ form.errors.messages[field] }}</p>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+
+              <div class="field">
+                <label for="TrackEmail">Email</label>
+                <input type="email" id="TrackEmail" name="customer[email]" autocomplete="email" placeholder="your@email.com" required>
+              </div>
+              <div class="field">
+                <label for="TrackPassword">Password</label>
+                <input type="password" id="TrackPassword" name="customer[password]" autocomplete="current-password" placeholder="••••••••" required>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="width:100%;">Sign in</button>
+              <div class="login-links">
+                <a href="{{ routes.account_recover_url }}">Forgot password?</a>
+                <a href="{{ routes.account_register_url }}">Create account</a>
+              </div>
+            {%- endform -%}
+          </div>
+        </div>
+      </div>
+
+    {%- endif -%}
+
+  </div>
+</section>
+
+<style>
+.tracking-section { padding: 80px 0 120px; }
+
+/* Logged-in: header */
+.tracking-header { text-align: center; margin-bottom: 60px; }
+.tracking-heading { font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; letter-spacing: -0.02em; margin-bottom: 12px; }
+.tracking-sub { font-size: 14px; color: #666; }
+.tracking-sub strong { color: var(--black); }
+
+/* Order cards */
+.orders-list { display: flex; flex-direction: column; gap: 24px; max-width: 860px; margin: 0 auto; }
+.order-card { background: #fff; border: 1px solid rgba(0,0,0,0.08); border-radius: 4px; overflow: hidden; }
+.order-card-top { display: flex; align-items: flex-start; justify-content: space-between; padding: 24px 28px 20px; border-bottom: 1px solid rgba(0,0,0,0.06); gap: 16px; flex-wrap: wrap; }
+.order-meta { display: flex; flex-direction: column; gap: 4px; }
+.order-name { font-size: 15px; font-weight: 500; letter-spacing: 0.05em; }
+.order-date { font-size: 12px; color: #888; }
+.order-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* Badges */
+.badge { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; padding: 5px 12px; border-radius: 100px; border: 1px solid; }
+.badge--paid        { color: #2F7A40; border-color: #b8dfc0; background: #f0faf2; }
+.badge--pending     { color: #7a5e2f; border-color: #dfd5b8; background: #faf7f0; }
+.badge--fulfilled   { color: var(--green); border-color: #b8c8bc; background: #f0f4f1; }
+.badge--unfulfilled { color: #666; border-color: #ddd; background: #f8f8f8; }
+.badge--partial     { color: #4a6fa5; border-color: #b8cce0; background: #f0f5fb; }
+
+/* Order items */
+.order-items { padding: 20px 28px; display: flex; flex-direction: column; gap: 16px; }
+.order-item { display: flex; gap: 16px; align-items: flex-start; }
+.item-img { width: 56px; height: 56px; object-fit: cover; border-radius: 3px; background: var(--beige); flex-shrink: 0; }
+.item-img--placeholder { background: var(--beige); }
+.item-info { display: flex; flex-direction: column; gap: 3px; }
+.item-title { font-size: 13px; font-weight: 500; }
+.item-variant { font-size: 12px; color: #888; }
+.item-qty { font-size: 12px; color: #888; }
+.more-items { font-size: 12px; color: #999; padding-left: 72px; }
+
+/* Tracking info */
+.tracking-info { padding: 16px 28px; background: #f9f9f9; border-top: 1px solid rgba(0,0,0,0.06); }
+.tracking-row { display: flex; align-items: center; gap: 10px; font-size: 13px; flex-wrap: wrap; }
+.tracking-row svg { flex-shrink: 0; color: var(--green); }
+.track-link { color: var(--black); font-weight: 500; text-decoration: underline; margin-left: auto; }
+.track-link:hover { color: var(--green); }
+
+/* Card footer */
+.order-card-footer { display: flex; align-items: center; justify-content: space-between; padding: 20px 28px; border-top: 1px solid rgba(0,0,0,0.06); }
+.order-total { font-size: 14px; font-weight: 500; }
+.order-detail-btn { padding: 10px 20px; font-size: 12px; }
+
+/* No orders */
+.no-orders { text-align: center; padding: 80px 0; }
+.no-orders p { color: #888; margin-bottom: 24px; }
+
+/* Guest split layout */
+.tracking-split { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; max-width: 1100px; margin: 0 auto; }
+.tracking-left .tracking-heading { margin-bottom: 16px; }
+.tracking-left .tracking-sub { color: #666; line-height: 1.8; margin-bottom: 48px; }
+
+.how-to { display: flex; flex-direction: column; gap: 32px; }
+.how-step { display: flex; gap: 20px; align-items: flex-start; }
+.how-n { font-size: 2rem; font-weight: 300; color: rgba(0,0,0,0.12); line-height: 1; flex-shrink: 0; width: 44px; }
+.how-step strong { display: block; font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+.how-step p { font-size: 13px; color: #888; line-height: 1.7; margin: 0; }
+.how-step a { color: var(--black); }
+
+/* Login card */
+.login-card { background: var(--off-white); border: 1px solid rgba(0,0,0,0.08); padding: 48px 44px; border-radius: 4px; }
+.login-card h2 { font-size: 22px; font-weight: 400; margin-bottom: 10px; }
+.login-card > p { font-size: 14px; color: #888; margin-bottom: 36px; line-height: 1.7; }
+.field { display: flex; flex-direction: column; margin-bottom: 24px; }
+.field label { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; opacity: 0.5; margin-bottom: 10px; }
+.field input { border: none; border-bottom: 1px solid rgba(0,0,0,0.15); background: transparent; font-family: var(--font); font-size: 15px; color: var(--black); padding: 10px 0; outline: none; transition: border-color 0.25s; }
+.field input::placeholder { color: rgba(0,0,0,0.3); }
+.field input:focus { border-bottom-color: var(--black); }
+.login-links { display: flex; justify-content: space-between; margin-top: 20px; }
+.login-links a { font-size: 12px; color: #888; text-decoration: underline; }
+.login-links a:hover { color: var(--black); }
+.form-errors { background: #fff0f0; border: 1px solid #f5c6c6; padding: 14px 18px; border-radius: 4px; margin-bottom: 20px; font-size: 13px; color: #b00; }
+
+/* Responsive */
+@media (max-width: 860px) {
+  .tracking-split { grid-template-columns: 1fr; gap: 48px; }
+  .login-card { padding: 36px 28px; }
+  .order-card-top, .order-card-footer { flex-direction: column; gap: 12px; }
+  .track-link { margin-left: 0; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Order Tracking",
+  "settings": [
+    { "type": "text",     "id": "eyebrow",       "label": "Eyebrow",        "default": "Order tracking" },
+    { "type": "text",     "id": "heading",        "label": "Heading",        "default": "Track your order" },
+    { "type": "textarea", "id": "subtext",        "label": "Subtext",        "default": "Sign in to view your order status and real-time tracking details." },
+    { "type": "text",     "id": "support_email",  "label": "Support email",  "default": "hello@marenolabel.com" }
+  ],
+  "presets": [{ "name": "Order Tracking" }]
+}
+{% endschema %}

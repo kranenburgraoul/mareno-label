@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "order-tracking",
+      "settings": {
+        "eyebrow": "Order tracking",
+        "heading": "Track your order",
+        "subtext": "Sign in to view your order status and real-time tracking details.",
+        "support_email": "hello@marenolabel.com"
+      }
+    }
+  },
+  "order": ["main"]
+}
